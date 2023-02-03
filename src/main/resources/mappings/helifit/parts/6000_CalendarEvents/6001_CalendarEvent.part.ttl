@@ -1,0 +1,97 @@
+<#ICalendar> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Appointment' && @.resource.appointmentType.coding[0].code == 'iCalendar')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/HLFXXX/code/{resource.appointmentType.coding[0].code}/id/{resource.id}";
+    rr:class ho:HLFXXXICalendar;
+  ];
+
+  #
+  # Metadata
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P2hasType;
+    rr:objectMap [
+      rr:parentTriplesMap <#AppointmentEntityIdentifier>;
+      rr:joinCondition [
+        rr:child "resource.id";
+        rr:parent "resource.id";
+      ];
+    ];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P140assignedAttributeTo;
+    rr:objectMap [
+      rr:parentTriplesMap <#Patient>;
+      rr:joinCondition [
+        rr:child "resource.participant[0].actor.display";
+        rr:parent "resource.id";
+      ];
+    ];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P148hasComponent;
+    rr:objectMap [
+      rr:parentTriplesMap <#CalendarEvent>;
+      rr:joinCondition [
+        rr:child "resource.id";
+        rr:parent "resource.supportingInformation[0].display";
+      ];
+    ];
+  ];
+.
+
+<#CalendarEvent> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Appointment' && @.resource.appointmentType.coding[0].code != 'iCalendar')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/HLFXXX/code/{resource.appointmentType.coding[0].code}/id/{resource.id}";
+    rr:class ho:HLFXXXCalendarEvent;
+  ];
+
+  #
+  # Metadata
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P1isIdentifiedBy;
+    rr:objectMap [
+      rr:parentTriplesMap <#AppointmentEntityIdentifier>;
+      rr:joinCondition [
+        rr:child "resource.id";
+        rr:parent "resource.id";
+      ];
+    ];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P140assignedAttributeTo;
+    rr:objectMap [
+      rr:parentTriplesMap <#Patient>;
+      rr:joinCondition [
+        rr:child "resource.participant[0].actor.display";
+        rr:parent "resource.id";
+      ];
+    ];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P4hasTimeSpan;
+    rr:objectMap [
+      rr:parentTriplesMap <#AppointmentDateTime>;
+      rr:joinCondition [
+        rr:child "resource.id";
+        rr:parent "resource.id";
+      ];
+    ];
+  ];
+.

@@ -1,0 +1,101 @@
+{
+  "data_source": "Calendar",
+  "user_id": "user84@puglia.gatekeeper.com",
+  "user_uuid": "60b36ccc15f8c40fc9428105",
+  "pilot_id": "Puglia",
+  "data": [
+    {
+      "VCALENDAR": [
+        {
+          "PRODID": "-//Google Inc//Google Calendar 70.9054//EN",
+          "VERSION": "2.0",
+          "CALSCALE": "GREGORIAN",
+          "METHOD": "PUBLISH",
+          "X-WR-CALNAME": "careathometest@gmail.com",
+          "X-WR-TIMEZONE": "Europe/London",
+          "VEVENT": [
+            {
+              "TYPE": "eventfc",
+              "UID": "c7614cff-3549-4a00-9152-d25cc1fe077d",
+              "DTSTART": "20230125T170000Z",
+              "DTEND": "20230125T180000Z",
+              "DTSTAMP": "20230120T125239Z",
+              "ORGANIZER;CN=careathometest@gmail.com": "mailto:careathometest@gmail.com",
+              "CREATED": "20230120T125021Z",
+              "X-GOOGLE-CONFERENCE": "https://meet.google.com/vtt-gchr-zqu",
+              "DESCRIPTION": "Doctor appointment for regular check up\\n\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: https://meet.google.com/vtt-gchr-zqu\\n\\nLearn more about Meet at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-",
+              "LAST-MODIFIED": "20230120T125129Z",
+              "LOCATION": "St George's Hospital\\, Blackshaw Rd\\, London SW17 0QT\\, UK",
+              "SEQUENCE": "0",
+              "STATUS": "CONFIRMED",
+              "SUMMARY": "Doctor Appointment",
+              "TRANSP": "OPAQUE"
+            },
+            {
+              "TYPE": "eventfc",
+              "UID": "c7614cff-3549-4a00-9152-d25cc1fe077d",
+              "DTSTART": "20230125T170000Z",
+              "DTEND": "20230125T180000Z",
+              "DTSTAMP": "20230120T125239Z",
+              "ORGANIZER;CN=careathometest@gmail.com": "mailto:careathometest@gmail.com",
+              "CREATED": "20230120T125021Z",
+              "X-GOOGLE-CONFERENCE": "https://meet.google.com/vtt-gchr-zqu",
+              "DESCRIPTION": "Doctor appointment for regular check up\\n\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: https://meet.google.com/vtt-gchr-zqu\\n\\nLearn more about Meet at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-",
+              "LAST-MODIFIED": "20230120T125129Z",
+              "LOCATION": "St George's Hospital\\, Blackshaw Rd\\, London SW17 0QT\\, UK",
+              "SEQUENCE": "0",
+              "STATUS": "CONFIRMED",
+              "SUMMARY": "Doctor Appointment",
+              "TRANSP": "OPAQUE"
+            },
+            {
+              "TYPE": "eventfc",
+              "UID": "c7614cff-3549-4a00-9152-d25cc1fe077d",
+              "type": "eventc / todoc / journalc / freebusyc /timezonec / iana-comp / x-comp) -- as per grammar",
+              "DTSTART": "20230125T170000Z",
+              "DTEND": "20230125T180000Z",
+              "DTSTAMP": "20230120T125239Z",
+              "ORGANIZER;CN=careathometest@gmail.com": "mailto:careathometest@gmail.com",
+              "CREATED": "20230120T125021Z",
+              "X-GOOGLE-CONFERENCE": "https://meet.google.com/vtt-gchr-zqu",
+              "DESCRIPTION": "Doctor appointment for regular check up\\n\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: https://meet.google.com/vtt-gchr-zqu\\n\\nLearn more about Meet at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-",
+              "LAST-MODIFIED": "20230120T125129Z",
+              "LOCATION": "St George's Hospital\\, Blackshaw Rd\\, London SW17 0QT\\, UK",
+              "SEQUENCE": "0",
+              "STATUS": "CONFIRMED",
+              "SUMMARY": "Doctor Appointment",
+              "TRANSP": "OPAQUE"
+            }
+          ]
+        },
+        {
+          "PRODID": "-//Google Inc//Google Calendar 70.9054//EN",
+          "VERSION": "2.0",
+          "CALSCALE": "GREGORIAN",
+          "METHOD": "PUBLISH",
+          "X-WR-CALNAME": "careathometest@gmail.com",
+          "X-WR-TIMEZONE": "Europe/Rome",
+          "VEVENT": [
+            {
+              "TYPE": "eventfc",
+              "UID": "c7614cff-3549-4a00-9152-d25cc1fe077d",
+              "DTSTART": "20230125T170000Z",
+              "DTEND": "20230125T180000Z",
+              "DTSTAMP": "20230120T125239Z",
+              "ORGANIZER;CN=careathometest@gmail.com": "mailto:careathometest@gmail.com",
+              "CREATED": "20230120T125021Z",
+              "X-GOOGLE-CONFERENCE": "https://meet.google.com/vtt-gchr-zqu",
+              "DESCRIPTION": "Doctor appointment for regular check up\\n\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\\nJoin with Google Meet: https://meet.google.com/vtt-gchr-zqu\\n\\nLearn more about Meet at: https://support.google.com/a/users/answer/9282720\\n\\nPlease do not edit this section.\\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-",
+              "LAST-MODIFIED": "20230120T125129Z",
+              "LOCATION": "St George's Hospital\\, Blackshaw Rd\\, London SW17 0QT\\, UK",
+              "SEQUENCE": "0",
+              "STATUS": "CONFIRMED",
+              "SUMMARY": "Doctor Appointment",
+              "TRANSP": "OPAQUE"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

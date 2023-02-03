@@ -1,0 +1,34 @@
+# ############################################################################ #
+#                                  AppointmentDateTime
+# ############################################################################ #
+
+<#AppointmentDateTime> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Appointment' && @.resource.appointmentType.coding[0].code != 'iCalendar')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/E52/code/{resource.appointmentType.coding[0].code}/id/{resource.id}";
+    rr:class ho:E52TimeSpan;
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:EP7starts;
+    rr:objectMap [
+      rml:reference "resource.start";
+      rr:datatype xsd:dateTime
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:EP8ends;
+    rr:objectMap [
+      rml:reference "resource.end";
+      rr:datatype xsd:dateTime
+    ]
+  ];
+.
+
+# /AppointmentDateTime

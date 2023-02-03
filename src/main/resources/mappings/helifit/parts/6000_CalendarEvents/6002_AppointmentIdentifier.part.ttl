@@ -1,0 +1,65 @@
+# ############################################################################ #
+#                           AppointmentEntityIdentifier
+# ############################################################################ #
+
+<#AppointmentEntityIdentifier> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Appointment')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/E42/code/{resource.appointmentType.coding[0].code}";
+    rr:class ho:E42Identifier;
+  ];
+
+  #
+  # Link(s)
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P2hasType;
+    rr:objectMap [
+      rr:parentTriplesMap <#AppointmentEntityIdentifierType>;
+      rr:joinCondition [
+        rr:child "resource.id";
+        rr:parent "resource.id";
+      ];
+    ];
+  ];
+
+  #
+  # Data
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P3hasNote;
+    rr:objectMap [
+      rml:reference "resource.appointmentType.coding[0].code";
+    ]
+  ];
+.
+
+<#AppointmentEntityIdentifierType> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'appointment')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/sdn/{resource.appointmentType.coding[0].code}";
+    rr:class ho:HLF209IdentifierType;
+  ];
+
+  #
+  # Data
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P3hasNote;
+    rr:objectMap [
+      rml:reference "resource.appointmentType.coding[0].system";
+    ]
+  ];
+.
+
+# /AppointmentEntityIdentifier

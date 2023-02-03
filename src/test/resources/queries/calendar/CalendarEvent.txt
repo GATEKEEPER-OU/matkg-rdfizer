@@ -1,0 +1,23 @@
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix hlf: <https://opensource.samsung.com/projects/helifit/>
+
+SELECT DISTINCT ?patientID ?iCalendar ?event ?eventCode ?start ?end WHERE {
+   ?patient rdf:type hlf:E21Person .
+              ?patient hlf:P1isIdentifiedBy ?identifier .
+              ?identifier hlf:P3hasNote ?patientID .
+
+   ?ts rdf:type hlf:E52TimeSpan .
+   ?iCalendar rdf:type hlf:HLFXXXICalendar .
+   ?event rdf:type hlf:HLFXXXCalendarEvent .
+   ?eventIdentifier rdf:type hlf:E42Identifier .
+
+   ?iCalendar hlf:P140assignedAttributeTo ?patient .
+   ?iCalendar hlf:P148hasComponent ?event .
+
+   ?event hlf:P1isIdentifiedBy ?eventIdentifier .
+   ?eventIdentifier hlf:P3hasNote ?eventCode .
+
+   ?event hlf:P4hasTimeSpan ?ts .
+   ?ts hlf:EP7starts ?start .
+   ?ts hlf:EP8ends ?end .
+}
