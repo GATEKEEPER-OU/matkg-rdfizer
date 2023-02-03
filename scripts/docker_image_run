@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+cd $(dirname "$0")/..
+WORKING_DIR=$(pwd)
+
+IMAGE_NAME=gk-rdfizer
+TIMESTAMP=$(date +%s)
+
+source_type=sh # TODO get as arg
+
+# TODO
+# export 'java -jar rdfizer' as global command and improve /data directory
+
+docker run --rm \
+  -v "${WORKING_DIR}/_tmp":/app/data \
+  ${IMAGE_NAME} \
+    --input "./data/datasets/${source_type}" \
+    --input-format ${source_type} \
+    --output-dir "./data/output/${source_type}-${TIMESTAMP}" \
+    --output-format turtle

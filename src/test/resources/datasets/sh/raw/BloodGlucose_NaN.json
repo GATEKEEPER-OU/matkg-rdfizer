@@ -1,0 +1,28 @@
+{
+  "data_source": "SH",
+  "frequency": "day",
+  "user_uuid": "60b36ccc05f8c40fc9428105",
+  "user_id": "user106@puglia.gatekeeper.com",
+  "pilot_id": "Puglia",
+  "timestamp": "1631923200000",
+  "data": [
+    {
+      "update_time": "1631965353421",
+      "day_time": "20210918",
+      "device_id": "NemNFgPtlB",
+      "data_uuid": "d5d9930c-e35f-4dc0-92fa-942489a5a671",
+      "type_id": "bloodGlucose",
+      "values": [
+        {
+          "glucose": "123",
+          "sample_source_type": "123",
+          "measurement_type": "123",
+          "meal_type": "123",
+          "meal_time": "NaN",
+          "start_time": "1631965349653",
+          "time_offset": "UTC+0200"
+        }
+      ]
+    }
+  ]
+}

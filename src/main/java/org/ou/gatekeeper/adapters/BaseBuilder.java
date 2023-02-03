@@ -1,4 +1,4 @@
-package org.ou.gatekeeper.fhir.adapters;
+package org.ou.gatekeeper.adapters;
 
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Device;
@@ -16,7 +16,7 @@ import java.util.UUID;
  * @author Riccardo Pala (riccardo.pala@open.ac.uk)
  * @todo description
  */
-public abstract class FHIRBaseBuilder {
+public abstract class BaseBuilder {
 
   public static final String LOCAL_SYSTEM = "http://local-system";
 
@@ -37,7 +37,7 @@ public abstract class FHIRBaseBuilder {
   public static final String HL7_SYSTEM = "http://terminology.hl7.org/CodeSystem";
   public static final String HL7_STRUCTURE = "http://hl7.org/fhir/StructureDefinition";
 
-  public static final Logger LOGGER = LoggerFactory.getLogger(FHIRBaseBuilder.class);
+  public static final Logger LOGGER = LoggerFactory.getLogger(BaseBuilder.class);
 
   /**
    * @todo description
@@ -196,7 +196,7 @@ public abstract class FHIRBaseBuilder {
   /**
    * @todo description
    */
-  protected FHIRBaseBuilder() {
+  protected BaseBuilder() {
   }
 
 }

@@ -8,7 +8,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.ou.gatekeeper.fhir.adapters.FHIRAdapter;
+import org.ou.gatekeeper.adapters.DataAdapter;
+import org.ou.gatekeeper.adapters.DataAdapters;
 import org.ou.gatekeeper.rdf.enums.OutputFormat;
 import org.ou.gatekeeper.rdf.mappings.HelifitMapping;
 import org.ou.gatekeeper.rdf.mappings.RMLMapping;
@@ -23,6 +24,10 @@ import java.io.IOException;
 import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA3_256;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author Riccardo Pala (riccardo.pala@open.ac.uk)
+ * @author Carlo Allocca (c.allocca@samsung.com)
+ */
 public class KnowledgeGraphTest {
 
   static final String ONTOLOGY = "ontologies/HeLiFit-OWL-Functional-Syntax.owl";
@@ -50,7 +55,7 @@ public class KnowledgeGraphTest {
     //
     // CSS
     // -------------------------------------------------------------------------
-//    "xxx, keep, CSS, GlycosilatedEmoglobin",
+    "xxx, keep, CSS, GlycosilatedEmoglobin",
 //    "xxx, keep, CSS, BloodPressure",
 //    "xxx, keep, CSS, BodyWeight",
 //    "xxx, keep, CSS, GlycosilatedEmoglobin",
@@ -108,7 +113,7 @@ public class KnowledgeGraphTest {
     String queryText = ResourceUtils.readFileToString(queryFile);
     File  outputFile = TestUtils.createOutputFile("output-"+datasetName+".query", "nt");
 
-    FHIRAdapter converter = TestUtils.getFHIRAdapter(sourceType);
+    DataAdapter converter = DataAdapters.getDataAdapter(sourceType);
     RMLMapping    mapping = HelifitMapping.create(tripleFormat);
     RDFizer.trasform(datasetFile, converter, mapping, triplesFile);
 

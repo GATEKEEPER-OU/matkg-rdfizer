@@ -1,11 +1,11 @@
-package org.ou.gatekeeper.fhir.adapters;
+package org.ou.gatekeeper.adapters;
 
+import lib.tests.helpers.TestUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.commons.ResourceUtils;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import lib.tests.helpers.TestUtils;
-import org.ou.gatekeeper.fhir.adapters.sh.SHAdapter;
+import org.ou.gatekeeper.adapters.sh.SHAdapter;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,8 +43,8 @@ class SHAdapterTest {
     File datasetFile = TestUtils.loadResource(datasetPath);
     File  outputFile = TestUtils.createOutputFile("output-"+datasetName, "fhir.json");
 
-    FHIRAdapter converter = SHAdapter.create();
-    converter.transform(datasetFile, outputFile);
+    DataAdapter converter = SHAdapter.create();
+    converter.toFhir(datasetFile, outputFile);
 
 //    File outputNormFile = TestUtils.createOutputFile("output-"+datasetName, "norm.json");
 //    converter.transform(datasetFile, outputNormFile, true);

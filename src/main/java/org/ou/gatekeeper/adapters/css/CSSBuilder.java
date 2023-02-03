@@ -1,4 +1,4 @@
-package org.ou.gatekeeper.fhir.adapters.css;
+package org.ou.gatekeeper.adapters.css;
 
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Condition;
@@ -12,7 +12,7 @@ import org.commons.DateTimeUtils;
 import org.commons.JSONObjectUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.ou.gatekeeper.fhir.adapters.FHIRBaseBuilder;
+import org.ou.gatekeeper.adapters.BaseBuilder;
 
 import java.lang.String;
 import java.math.BigDecimal;
@@ -23,7 +23,7 @@ import java.util.LinkedList;
  * @author Riccardo Pala (riccardo.pala@open.ac.uk)
  * @todo description
  */
-class CSSBuilder extends FHIRBaseBuilder {
+class CSSBuilder extends BaseBuilder {
 
   public static final String BASE_URL = "https://www.gatekeeper-project.eu/sid/puglia";
 

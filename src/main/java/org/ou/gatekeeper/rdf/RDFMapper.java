@@ -39,10 +39,12 @@ public class RDFMapper {
       QuadStore quad = map(mappingStream);
       if (quad != null) {
         String format = mapping.getFormat().toString();
-        writeOnFile(quad, format, output);
+        Writer file = new FileWriter(output);
+        quad.write(file, format);
+        file.close();
       }
 
-    } catch (IOException e) {
+    } catch (Exception e) {
       LOGGER.error("---> @todo TO THIS WAY 1", e); // @todo
       e.printStackTrace();
     }
@@ -114,32 +116,6 @@ public class RDFMapper {
    * @todo description
    */
   private RDFMapper() {
-  }
-
-  //--------------------------------------------------------------------------//
-  // Private methods
-  //--------------------------------------------------------------------------//
-
-  /**
-   * @todo description
-   */
-  private static void writeOnFile(
-    QuadStore quadStore,
-    String format,
-    File output
-  ) {
-    try (
-      Writer file = new FileWriter(output)
-    ) {
-      quadStore.write(file, format);
-
-    } catch (IOException e) {
-      // @todo Message
-      e.printStackTrace();
-    } catch (Exception e) {
-      // @todo Message
-      e.printStackTrace();
-    }
   }
 
 }

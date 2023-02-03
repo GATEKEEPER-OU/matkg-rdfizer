@@ -3,7 +3,7 @@ package org.ou.gatekeeper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.commons.ResourceUtils;
-import org.ou.gatekeeper.fhir.adapters.FHIRAdapter;
+import org.ou.gatekeeper.adapters.DataAdapter;
 import org.ou.gatekeeper.rdf.RDFMapper;
 import org.ou.gatekeeper.rdf.mappings.RMLMapping;
 
@@ -25,39 +25,39 @@ public class RDFizer {
    * */
   public static void trasform(
     File input,
-    FHIRAdapter converter,
+    DataAdapter converter,
     File output
   ) {
-    converter.transform(input, output, false);
+    converter.toFhir(input, output);
   }
 
   /**
    * Reads dataset from file and writes the result on a file in RDF format.
    * @param input file to convert
-   * @param converter the adapter that understands the input dataset
+   * @param adapter the adapter that understands the input dataset
    * @param mapping RML mapping file which contains mapping rules
    * @param output RDF output file
    * */
   public static void trasform(
     File input,
-    FHIRAdapter converter,
+    DataAdapter adapter,
     RMLMapping mapping,
     File output
   ) {
-    trasform(input, converter, mapping, output, true);
+    trasform(input, adapter, mapping, output, true);
   }
 
   /**
    * Reads dataset from file and writes the result on a file in RDF format.
    * @param input file to convert
-   * @param converter the adapter that understands the input dataset
+   * @param adapter the adapter that understands the input dataset
    * @param mapping RML mapping file which contains mapping rules
    * @param output RDF output file
    * @param clean if {@code false} all intermediate results will be kept
    * */
   public static void trasform(
     File input,
-    FHIRAdapter converter,
+    DataAdapter adapter,
     RMLMapping mapping,
     File output,
     boolean clean
@@ -66,7 +66,7 @@ public class RDFizer {
     String fhirFilename = generateUniqueFilename("output-"+inputName, "json");
 //    String fhirFilename = generateUniqueFilename("output", "fhir.json");
     File tempFhirFile = new File(TMP_DIR, fhirFilename);
-    converter.transform(input, tempFhirFile, true);
+    adapter.toExtendedFhir(input, tempFhirFile);
     mapping.setLocalSource(tempFhirFile.getAbsolutePath());
     RDFMapper.map(mapping, output);
     if (clean) {

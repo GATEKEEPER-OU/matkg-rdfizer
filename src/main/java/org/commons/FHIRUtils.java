@@ -1,7 +1,6 @@
-package org.ou.gatekeeper.fhir.helpers;
+package org.commons;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.commons.UrlUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -13,7 +12,7 @@ import java.util.UUID;
  * @author Riccardo Pala (riccardo.pala@open.ac.uk)
  * TODO description
  */
-public class FHIRNormalizer {
+public class FHIRUtils {
 
   /**
    * TODO description
@@ -26,21 +25,15 @@ public class FHIRNormalizer {
       JSONObject json = new JSONObject(tokener);
       JSONArray entries = json.getJSONArray("entry");
       siftEntries(entries);
-      save(json, output);
-
-    } catch (FileNotFoundException e) {
-      // TODO Message ?
-      e.printStackTrace();
+      FileWriter file = new FileWriter(output);
+      file.write(json.toString());
+      file.close();
 
     } catch (IOException e) {
-      // TODO Message ?
-      e.printStackTrace();
+      // TODO how to handle it?
+      throw new RuntimeException(e);
     }
   }
-
-  //--------------------------------------------------------------------------//
-  // Private methods
-  //--------------------------------------------------------------------------//
 
   /**
    * Loop a
@@ -144,31 +137,10 @@ public class FHIRNormalizer {
     // TODO design again this method (better if whole class)
     for (int i = 0; i < components.length(); ++i) {
       JSONObject component = components.getJSONObject(i);
-                                                                 // TODO rename method needed
+      // TODO rename method needed
       component.put("componentId", UUID.randomUUID()); // append own uuid
       component.put("resourceId", resourceId);                   // append parent resourceId
     }
-  }
-
-  /**
-   * Save a JSON Object on file.
-   * @param json object to save
-   * @param output the file where save the object
-   */
-  private static void save(JSONObject json, File output) {
-    try (FileWriter file = new FileWriter(output)) {
-      file.write(json.toString());
-
-    } catch (IOException e) {
-      // TODO Message ?
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * TODO description
-   */
-  private FHIRNormalizer() {
   }
 
 }

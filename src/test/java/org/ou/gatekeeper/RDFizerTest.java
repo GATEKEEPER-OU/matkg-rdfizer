@@ -6,7 +6,8 @@ import org.commons.ResourceUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.ou.gatekeeper.fhir.adapters.FHIRAdapter;
+import org.ou.gatekeeper.adapters.DataAdapter;
+import org.ou.gatekeeper.adapters.DataAdapters;
 import org.ou.gatekeeper.rdf.enums.OutputFormat;
 import org.ou.gatekeeper.rdf.mappings.HelifitMapping;
 import org.ou.gatekeeper.rdf.mappings.RMLMapping;
@@ -21,8 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Riccardo Pala (riccardo.pala@open.ac.uk)
  * @author Carlo Allocca (c.allocca@samsung.com)
  */
-
-
 class RDFizerTest {
 
   @ParameterizedTest
@@ -33,11 +32,31 @@ class RDFizerTest {
 
     // Patient
 //    "xxx, keep, CSS, Patient",
-
+//    "xxx, keep, CSS, PatientWithAge",
     // Observations
-//    "xxx, keep, CSS, .., all",
+//    "xxx, keep, CSS, BodyHeight",
+//    "xxx, keep, CSS, Weight",
 //    "xxx, keep, CSS, GlycosilatedEmoglobin",
-//    "xxx, keep, CSS, ...",
+//    "xxx, keep, CSS, TotalCholesterol",
+//    "xxx, keep, CSS, HighDensityLipoprotein",
+//    "xxx, keep, CSS, LowDensityLipoprotein",
+//    "xxx, keep, CSS, Triglycerides",
+//    "xxx, keep, CSS, SerumCreatinine",
+//    "xxx, keep, CSS, AlbuminuriaCreatininuriaRatio",
+//    "xxx, keep, CSS, AlanineAminoTransferase",
+//    "xxx, keep, CSS, AspartateAminoTransferase",
+//    "xxx, keep, CSS, GlutamylTransferase",
+//    "xxx, keep, CSS, AlkalinePhosphatase",
+//    "xxx, keep, CSS, UricAcid",
+//    "xxx, keep, CSS, EstimatedGlomerularFiltrationRate",
+//    "xxx, keep, CSS, Nitrites",
+//    "xxx, keep, CSS, BloodPressure",
+//    "xxx, keep, CSS, HepaticSteatosis",
+//    "xxx, keep, CSS, Hypertension",
+//    "xxx, keep, CSS, HeartFailure",
+//    "xxx, keep, CSS, BPCO",
+//    "xxx, keep, CSS, ChronicKidneyDisease",
+//    "xxx, keep, CSS, IschemicHeartDisease",
 
     //
     // Samsung Health
@@ -70,7 +89,7 @@ class RDFizerTest {
     File datasetFile = TestUtils.loadResource(datasetPath);
     File outputFile = TestUtils.createOutputFile("output-"+datasetName, "fhir.json");
 
-    FHIRAdapter converter = TestUtils.getFHIRAdapter(sourceType);
+    DataAdapter converter = DataAdapters.getDataAdapter(sourceType);
     RDFizer.trasform(datasetFile, converter, outputFile);
 
     try {
@@ -94,45 +113,50 @@ class RDFizerTest {
   @ParameterizedTest
   @CsvSource({
     //
+    // FHIR
+    // -------------------------------------------------------------------------
+
+    // Patient
+//    "xxx, keep, SH, Patient,          '0000,0001,0002,0003,0044'",
+    // Observations
+//    "xxx, keep, FHIR, GlycosilatedEmoglobin, '0000,0001,0002,0003,0040,0041,0044,4001'",
+
+    //
     // CSS
     // -------------------------------------------------------------------------
 
     // Patient
-//    "xxx, keep, CSS, Patient, '0000,0001,0002,0003,0044'",
-//      "xxx, keep, CSS, PatientWithAge, '0000,0001,0002,0003,0044'",
+//    "xxx, keep, CSS, Patient,        '0000,0001,0002,0003,0044'",
+//    "xxx, keep, CSS, PatientWithAge, '0000,0001,0002,0003,0044'",
     // Observations
-//   "xxx, keep, CSS, .., all",
-//      "xxx, keep, CSS, BodyHeight, '0000,0001,0002,0003,0040,0041,0044,1001'",
-//    "xxx, keep, CSS, Weight, '0000,0001,0002,0003,0040,0041,0044,1002'",
-//    "xxx, keep, CSS, GlycosilatedEmoglobin, '0000,0001,0002,0003,0040,0041,0044,4001'",
-//          "xxx, keep, CSS, TotalCholesterol, '0000,0001,0002,0003,0040,0041,0044,4002'",
-//          "xxx, keep, CSS, HighDensityLipoprotein, '0000,0001,0002,0003,0040,0041,0044,4003'",
-//          "xxx, keep, CSS, LowDensityLipoprotein, '0000,0001,0002,0003,0040,0041,0044,4004'",
-//          "xxx, keep, CSS, Triglycerides, '0000,0001,0002,0003,0040,0041,0044,4005'",
-//          "xxx, keep, CSS, SerumCreatinine, '0000,0001,0002,0003,0040,0041,0044,4006'",
-//          "xxx, keep, CSS, AlbuminuriaCreatininuriaRatio, '0000,0001,0002,0003,0040,0041,0044,4007'",
-//          "xxx, keep, CSS, AlanineAminoTransferase, '0000,0001,0002,0003,0040,0041,0044,4008'",
-//          "xxx, keep, CSS, AspartateAminoTransferase, '0000,0001,0002,0003,0040,0041,0044,4009'",
-//          "xxx, keep, CSS, GlutamylTransferase, '0000,0001,0002,0003,0040,0041,0044,4010'",
-//          "xxx, keep, CSS, AlkalinePhosphatase, '0000,0001,0002,0003,0040,0041,0044,4011'",
-//          "xxx, keep, CSS, UricAcid, '0000,0001,0002,0003,0040,0041,0044,4012'",
-//          "xxx, keep, CSS, EstimatedGlomerularFiltrationRate, '0000,0001,0002,0003,0040,0041,0044,4013'",
-//          "xxx, keep, CSS, Nitrites, '0000,0001,0002,0003,0040,0041,0044,4014'",
+//    "xxx, keep, CSS, .., all",
+//    "xxx, keep, CSS, BodyHeight,                        '0000,0001,0002,0003,0040,0041,0044,1001'",
+//    "xxx, keep, CSS, Weight,                            '0000,0001,0002,0003,0040,0041,0044,1002'",
+//    "xxx, keep, CSS, GlycosilatedEmoglobin,             '0000,0001,0002,0003,0040,0041,0044,4001'",
+//    "xxx, keep, CSS, TotalCholesterol,                  '0000,0001,0002,0003,0040,0041,0044,4002'",
+//    "xxx, keep, CSS, HighDensityLipoprotein,            '0000,0001,0002,0003,0040,0041,0044,4003'",
+//    "xxx, keep, CSS, LowDensityLipoprotein,             '0000,0001,0002,0003,0040,0041,0044,4004'",
+//    "xxx, keep, CSS, Triglycerides,                     '0000,0001,0002,0003,0040,0041,0044,4005'",
+//    "xxx, keep, CSS, SerumCreatinine,                   '0000,0001,0002,0003,0040,0041,0044,4006'",
+//    "xxx, keep, CSS, AlbuminuriaCreatininuriaRatio,     '0000,0001,0002,0003,0040,0041,0044,4007'",
+//    "xxx, keep, CSS, AlanineAminoTransferase,           '0000,0001,0002,0003,0040,0041,0044,4008'",
+//    "xxx, keep, CSS, AspartateAminoTransferase,         '0000,0001,0002,0003,0040,0041,0044,4009'",
+//    "xxx, keep, CSS, GlutamylTransferase,               '0000,0001,0002,0003,0040,0041,0044,4010'",
+//    "xxx, keep, CSS, AlkalinePhosphatase,               '0000,0001,0002,0003,0040,0041,0044,4011'",
+//    "xxx, keep, CSS, UricAcid,                          '0000,0001,0002,0003,0040,0041,0044,4012'",
+//    "xxx, keep, CSS, EstimatedGlomerularFiltrationRate, '0000,0001,0002,0003,0040,0041,0044,4013'",
+//    "xxx, keep, CSS, Nitrites,                          '0000,0001,0002,0003,0040,0041,0044,4014'",
+//
+//    "xxx, keep, CSS, BloodPressure, '0000,0001,0002,0003,0010,0040,0041,0044,1006'",
+//
+//    "xxx, keep, CSS, HepaticSteatosis,     '0000,0001,0002,0003,0040,0042,0044,5001'",
+//    "xxx, keep, CSS, Hypertension,         '0000,0001,0002,0003,0040,0042,0044,5002'",
+//    "xxx, keep, CSS, HeartFailure,         '0000,0001,0002,0003,0040,0042,0044,5003'",
+//    "xxx, keep, CSS, BPCO,                 '0000,0001,0002,0003,0040,0042,0044,5004'",
+//    "xxx, keep, CSS, ChronicKidneyDisease, '0000,0001,0002,0003,0040,0042,0044,5005'",
+//    "xxx, keep, CSS, IschemicHeartDisease, '0000,0001,0002,0003,0040,0042,0044,5006'",
 
-//          "xxx, keep, CSS, BloodPressure, '0000,0001,0002,0003,0010,0040,0041,0044,1006'",
-
-//          "xxx, keep, CSS, HepaticSteatosis, '0000,0001,0002,0003,0040,0042,0044,5001'",
-//          "xxx, keep, CSS, Hypertension, '0000,0001,0002,0003,0040,0042,0044,5002'",
-//          "xxx, keep, CSS, HeartFailure, '0000,0001,0002,0003,0040,0042,0044,5003'",
-//          "xxx, keep, CSS, BPCO, '0000,0001,0002,0003,0040,0042,0044,5004'",
-//          "xxx, keep, CSS, ChronicKidneyDisease, '0000,0001,0002,0003,0040,0042,0044,5005'",
-//          "xxx, keep, CSS, IschemicHeartDisease, '0000,0001,0002,0003,0040,0042,0044,5006'",
-
-
-
-
-
-          //
+    //
     // Samsung Health
     // -------------------------------------------------------------------------
 
@@ -162,19 +186,18 @@ class RDFizerTest {
    *   - use 'all' label is discoraged into selective tests, because it will produce
    *     many false-positive warnings, make it hard to debug
    * */
-  /*
-  use this method to test if each rml rule is correctly written w.r.t HeLiFit ontology.
-   */
+  //
+  // use this method to test if each rml rule is correctly written w.r.t HeLiFit ontology.
+//  @Disabled
   void test_transform_RawToRDF(String expectedDigest, String policy, String sourceType, String datasetName, String modules) {
     String datasetPath = TestUtils.getDatasetPath(sourceType, datasetName);
-//    System.out.println("---------->>>>> " +datasetPath);
     File datasetFile = TestUtils.loadResource(datasetPath);
 //    OutputFormat outputFormat = OutputFormat.NTRIPLES;
 //    File outputFile = TestUtils.createOutputFile("output-"+datasetName, "nt");
     OutputFormat outputFormat = OutputFormat.TURTLE;
     File outputFile = TestUtils.createOutputFile("output-"+datasetName, "turtle");
 
-    FHIRAdapter converter = TestUtils.getFHIRAdapter(sourceType);
+    DataAdapter converter = DataAdapters.getDataAdapter(sourceType);
     String[] partsToInclude = !modules.equals("all") ? modules.split(",") : null;
     RMLMapping mapping = HelifitMapping.create(outputFormat, partsToInclude, true);
     RDFizer.trasform(datasetFile, converter, mapping, outputFile, false);
