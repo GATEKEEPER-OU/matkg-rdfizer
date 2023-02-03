@@ -1,6 +1,10 @@
 package lib.tests.helpers;
 
 import org.apache.commons.io.FileUtils;
+import org.ou.gatekeeper.adapters.DataAdapter;
+import org.ou.gatekeeper.adapters.css.CSSAdapter;
+import org.ou.gatekeeper.adapters.fhir.FHIRAdapter;
+import org.ou.gatekeeper.adapters.sh.SHAdapter;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +40,7 @@ public class TestUtils {
   /**
    * @todo description
    */
-  public static FHIRAdapter getFHIRAdapter(String sourceType) {
+  public static DataAdapter getFHIRAdapter(String sourceType) {
     switch (sourceType) {
       case "CSS":
         return CSSAdapter.create();

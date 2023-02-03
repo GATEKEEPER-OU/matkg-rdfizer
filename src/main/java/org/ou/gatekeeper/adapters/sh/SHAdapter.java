@@ -1,19 +1,10 @@
 package org.ou.gatekeeper.adapters.sh;
 
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.generator.FHIRGenerator;
-import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Appointment;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.*;
-import com.ibm.fhir.model.type.code.AppointmentStatus;
-import com.ibm.fhir.model.type.code.BundleType;
-import com.ibm.fhir.model.visitor.Visitable;
-import org.apache.commons.io.FileUtils;
-import com.ibm.fhir.model.resource.Bundle;
-import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Quantity;
 import org.apache.commons.lang.StringUtils;
@@ -24,9 +15,7 @@ import org.ou.gatekeeper.adapters.BaseAdapter;
 import org.ou.gatekeeper.adapters.BaseBuilder;
 import org.ou.gatekeeper.adapters.DataAdapter;
 
-import java.io.*;
 import java.lang.String;
-import java.nio.file.Files;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -1687,8 +1676,8 @@ public class SHAdapter extends BaseAdapter
     String duration = SHBuilder.getValue(dataElement, "duration");
     if ( !StringUtils.isBlank(duration)) {
       String uuid = dataElement.getString("data_uuid");
-      double d = Float.parseFloat(duration);
-      String dd = String.valueOf(d / 1000);
+//      double d = Float.parseFloat(duration);
+//      String dd = String.valueOf(d * 1000);
       Collection<Observation.Component> components = new LinkedList<>();
 
       //
@@ -1703,11 +1692,11 @@ public class SHAdapter extends BaseAdapter
           "Duration"
         )),
         components,
-        FHIRBaseBuilder.buildQuantity(
-          Decimal.of(dd),
+        BaseBuilder.buildQuantity(
+          Decimal.of(duration),
           "ms",
           UNITSOFM_SYSTEM,
-          ",s"
+          "ms"
         ),
         parentEntry,
         patientEntry

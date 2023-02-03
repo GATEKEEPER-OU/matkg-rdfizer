@@ -14,13 +14,11 @@ import org.json.JSONObject;
 import org.ou.gatekeeper.adapters.BaseBuilder;
 
 import java.lang.String;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.Date;
-import java.util.List;
 
 class SHBuilder extends BaseBuilder {
 
