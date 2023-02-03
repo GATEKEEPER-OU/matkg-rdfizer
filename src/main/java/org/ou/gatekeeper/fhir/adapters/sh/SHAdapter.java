@@ -3,10 +3,12 @@ package org.ou.gatekeeper.fhir.adapters.sh;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.fhir.model.resource.Appointment;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
-import com.ibm.fhir.model.type.Decimal;
-import com.ibm.fhir.model.type.Quantity;
+import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.*;
+import com.ibm.fhir.model.type.code.AppointmentStatus;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.visitor.Visitable;
 import org.apache.commons.io.FileUtils;
@@ -21,9 +23,12 @@ import org.ou.gatekeeper.fhir.adapters.FHIRBaseBuilder;
 import org.ou.gatekeeper.fhir.helpers.FHIRNormalizer;
 
 import java.io.*;
+import java.lang.String;
 import java.nio.file.Files;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
 
 import static org.apache.commons.collections.CollectionUtils.addIgnoreNull;
 import static org.commons.ResourceUtils.generateUniqueFilename;
@@ -125,11 +130,15 @@ public class SHAdapter implements FHIRAdapter {
     for (int i = 0; i < data.length(); ++i) {
       JSONObject element = data.getJSONObject(i);
 
-      String obsType = element.getString("type_id");
-      if (obsType.equals("sleep")) {
-        collectSleepObservations(entries, element, patientEntry, data);
+      if (element.has("VCALENDAR")) {
+        collectCalendarEvent(entries, element, patientEntry);
       } else {
-        collectObservations(entries, element, patientEntry);
+        String obsType = element.getString("type_id");
+        if (obsType.equals("sleep")) {
+          collectSleepObservations(entries, element, patientEntry, data);
+        } else {
+          collectObservations(entries, element, patientEntry);
+        }
       }
     }
   }
@@ -193,8 +202,53 @@ public class SHAdapter implements FHIRAdapter {
     collectLocation(entries, dataElement, mainObservation, patientEntry);
   }
 
+  private static void collectCalendarEvent(
+    Collection<Bundle.Entry> entries,
+    JSONObject dataElement,
+    Bundle.Entry patientEntry
+  ) {
+    JSONArray vCalendars = dataElement.getJSONArray("VCALENDAR");
+    List<String> eventTypes = new LinkedList<>();
+    eventTypes.add("VEVENT");
+    eventTypes.add("VTODO");
+    eventTypes.add("VJOURNAL");
+    eventTypes.add("VFREEBUSY");
+    eventTypes.add("VTIMEZONE");
+//      eventTypes.add("VIANACOMP");
+//      eventTypes.add("VXCOMP");
+    for (int i = 0; i < vCalendars.length(); i++) {
+      JSONObject vCalendar = vCalendars.getJSONObject(i);
+      String parentId = UUID.randomUUID().toString();
+      Resource parentAppointment = Appointment.builder()
+              .appointmentType(createAppointmentType("iCalendar"))
+              .status(getAppointmentStatus("noshow"))
+              .id(parentId)
+              .participant(createAppointmentParticipant(patientEntry.getResource().getId(), "Patient"))
+              .identifier(
+                      Identifier.builder()
+                      .system(Uri.builder().value("https://opensource.samsung.com/projects/helifit/identifier").build())
+                      .value(parentId).build()
+              )
+              .build();
+      Bundle.Entry parentEntry = buildEntry(parentAppointment, buildFullUrl(BASE_URL + "/appointment/" + parentAppointment.getId()).getValue());
+      entries.add(parentEntry);
+      for (int k = 0; k < eventTypes.size(); k++) {
+        if (!vCalendar.has(eventTypes.get(k))) continue;
+        JSONArray events = vCalendar.getJSONArray(eventTypes.get(k));
+        for (int j = 0; j < events.length(); j++) {
+          JSONObject vEvent = events.getJSONObject(j);
+          String eventType = eventTypes.get(k);
+          Resource resource = buildAppointmentResource(vEvent, eventType, patientEntry, vCalendar, parentAppointment);
+          String uuid = resource.getId();
+          Bundle.Entry entry = buildEntry(resource,buildFullUrl(BASE_URL + "/appointment/" + uuid).getValue());
+          entries.add(entry);
+        }
+      }
+    }
+  }
+
   /**
-   * @todo description
+   * @todo descriptioncollectCalendarEvent
    */
   private static void collectSleepObservations(
     Collection<Bundle.Entry> entries,
@@ -1719,7 +1773,8 @@ public class SHAdapter implements FHIRAdapter {
     String duration = getValue(dataElement, "duration");
     if ( !StringUtils.isBlank(duration)) {
       String uuid = dataElement.getString("data_uuid");
-
+      double d = Float.parseFloat(duration);
+      String dd = String.valueOf(d / 1000);
       Collection<Observation.Component> components = new LinkedList<>();
 
       //
@@ -1735,10 +1790,10 @@ public class SHAdapter implements FHIRAdapter {
         )),
         components,
         FHIRBaseBuilder.buildQuantity(
-          Decimal.of(duration),
-          "s",
+          Decimal.of(dd),
+          "ms",
           UNITSOFM_SYSTEM,
-          "s"
+          ",s"
         ),
         parentEntry,
         patientEntry

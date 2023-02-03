@@ -44,6 +44,7 @@ public class TestUtils {
       case "CSS":
         return CSSAdapter.create();
       case "SH":
+      case "CALENDAR":
         return SHAdapter.create();
       default:
         throw new IllegalArgumentException("Only 'CSS' or 'SH' types allowed");

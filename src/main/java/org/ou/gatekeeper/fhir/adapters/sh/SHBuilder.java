@@ -1,11 +1,11 @@
 package org.ou.gatekeeper.fhir.adapters.sh;
 
 import com.google.common.base.CaseFormat;
-import com.ibm.fhir.model.resource.Bundle;
-import com.ibm.fhir.model.resource.Observation;
-import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.*;
 import com.ibm.fhir.model.type.*;
+import com.ibm.fhir.model.type.code.AppointmentStatus;
 import com.ibm.fhir.model.type.code.ObservationStatus;
+import com.ibm.fhir.model.type.code.ParticipationStatus;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.text.CaseUtils;
@@ -15,8 +15,13 @@ import org.json.JSONObject;
 import org.ou.gatekeeper.fhir.adapters.FHIRBaseBuilder;
 
 import java.lang.String;
-import java.util.Collection;
-import java.util.TimeZone;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 class SHBuilder extends FHIRBaseBuilder {
 
@@ -57,6 +62,115 @@ class SHBuilder extends FHIRBaseBuilder {
       case "30004": return "repetition";
       default:
         return "undefined";
+    }
+  }
+
+  public static Resource buildAppointmentResource(
+          JSONObject vEvent,
+          String eventType,
+          Bundle.Entry patientEntry,
+          JSONObject vCalendar,
+          Resource parentAppointment
+  ) {
+    String timezone = vCalendar.getString("X-WR-TIMEZONE");
+    String resourceId = UUID.randomUUID().toString();
+    Resource resource = Appointment.builder()
+            .status(getAppointmentStatus(vEvent.getString("STATUS")))
+            .appointmentType(createAppointmentType(eventType))
+            .participant(createAppointmentParticipant(patientEntry.getResource().getId(), "Patient"))
+            .start(createAppointmentTime(vEvent.getString("DTSTART"), timezone))
+            .end(createAppointmentTime(vEvent.getString("DTEND"), timezone))
+            .supportingInformation(Reference.builder()
+                    .reference("Appointment/" + parentAppointment.getId())
+                    .display(parentAppointment.getId())
+                    .build())
+            .id(resourceId)
+            .identifier(Identifier.builder()
+                    .system(Uri.builder().value("https://opensource.samsung.com/projects/helifit/identifier").build())
+                    .value(resourceId)
+                    .build())
+            .meta(Meta.builder().lastUpdated(createAppointmentTime(vEvent.getString("LAST-MODIFIED"), timezone)).build())
+            .created(DateTime.of(createAppointmentTime(vEvent.getString("LAST-MODIFIED"), timezone)))
+            .extension(
+                    Extension.builder().value(vEvent.getString("X-GOOGLE-CONFERENCE")).url("X-GOOGLE-CONFERENCE").build(),
+                    Extension.builder().value(vEvent.getString("LOCATION")).url("LOCATION").build(),
+                    Extension.builder().value(vEvent.getString("SEQUENCE")).url("SEQUENCE").build(),
+                    Extension.builder().value(vEvent.getString("SUMMARY")).url("SUMMARY").build(),
+                    Extension.builder().value(vEvent.getString("TRANSP")).url("TRANSP").build(),
+                    Extension.builder().value(vCalendar.getString("CALSCALE")).url("CALSCALE").build(),
+                    Extension.builder().value(vCalendar.getString("METHOD")).url("METHOD").build(),
+                    Extension.builder().value(vCalendar.getString("X-WR-CALNAME")).url("X-WR-CALNAME").build(),
+                    Extension.builder().value(vCalendar.getString("X-WR-TIMEZONE")).url("X-WR-TIMEZONE").build()
+            )
+            .description(vEvent.getString("DESCRIPTION"))
+            .build();
+
+    return  resource;
+  }
+
+  public static CodeableConcept createAppointmentType(String type) {
+    String appointmentType = "";
+    switch (type) {
+      case "VEVENT":
+        appointmentType = "eventc";
+        break;
+      case "VTODO":
+        appointmentType = "todoc";
+        break;
+      case "VJOURNAL":
+        appointmentType = "journalc";
+        break;
+      case "VFREEBUSY":
+        appointmentType = "freebusyc";
+        break;
+      case "VTIMEZONE":
+        appointmentType = "timezonec";
+        break;
+      default:
+        appointmentType = type;
+        break;
+    }
+    return  CodeableConcept
+            .builder()
+            .coding(Coding.builder().code(Code.builder().value(appointmentType).build()).display(appointmentType).system(Uri.uri(LOCAL_SYSTEM)).build())
+            .build();
+  }
+
+  public static ZonedDateTime createAppointmentTime(String dateTime, String tz) {
+    try {
+      String fixedDateStr = dateTime.substring(0, 4)
+              + "/"
+              + dateTime.substring(4, 6)
+              + "/"
+              + dateTime.substring(6, 8)
+              + " "
+              + dateTime.substring(9, 15);
+      TimeZone timeZone = TimeZone.getTimeZone(tz);
+      SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hhmmss");
+      format.setTimeZone(timeZone);
+      Date c = format.parse(fixedDateStr);
+      String pattern = DateFormatUtils.ISO_DATETIME_TIME_ZONE_FORMAT.getPattern();
+      String isoDateTime = DateFormatUtils.format(c.getTime(), pattern, timeZone);
+      return ZonedDateTime.from(DateTime.builder().value(isoDateTime).build().getValue());
+    } catch (ParseException ex) {
+      return null;
+    }
+  }
+
+  public static Appointment.Participant createAppointmentParticipant(String patientId, String resourceType) {
+    return Appointment.Participant
+            .builder()
+            .actor(Reference.builder().reference(resourceType + "/" + patientId).display(patientId).build())
+            .status(ParticipationStatus.ACCEPTED)
+            .build();
+  }
+
+  public static AppointmentStatus getAppointmentStatus(String currentStatus) {
+    switch (currentStatus) {
+      case "CONFIRMED":
+        return AppointmentStatus.builder().value(AppointmentStatus.BOOKED.getValue()).build();
+      default:
+        return AppointmentStatus.builder().value(AppointmentStatus.PROPOSED.getValue()).build();
     }
   }
 
