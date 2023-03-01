@@ -86,7 +86,7 @@ public class KnowledgeGraphTest {
 //    "xxx, keep, SH, HeartRate",
 //    "xxx, keep, SH, Sleep",
 //    "xxx, keep, SH, SleepStage",
-//    "xxx, keep, SH, Walking",
+    "xxx, keep, SH, Walking",
 //    "xxx, keep, SH, Cycling",
 //    "xxx, keep, SH, Running",
 //    "xxx, keep, SH, Swimming",
@@ -97,7 +97,7 @@ public class KnowledgeGraphTest {
 //    "xxx, keep, SH, BloodGlucose",
 //    "xxx, keep, SH, BloodPressure",
 //    "xxx, keep, SH, OxygenSaturation",
-    "xxx, keep, CALENDAR, CalendarEvent",
+//    "xxx, keep, SH, CalendarEvent",
   })
   void test_knowledgeGraph(
     String expectedDigest, String policy, String sourceType, String datasetName

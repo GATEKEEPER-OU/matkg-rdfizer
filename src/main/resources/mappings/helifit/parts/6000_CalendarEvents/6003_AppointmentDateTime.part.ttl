@@ -29,6 +29,14 @@
       rr:datatype xsd:dateTime
     ]
   ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:EP9effectiveDatatime;
+    rr:objectMap [
+      rml:reference "resource.extension[?(@.url == 'DTSTAMP')].valueInstant";
+      rr:datatype xsd:dateTime
+    ]
+  ];
 .
 
 # /AppointmentDateTime

@@ -134,7 +134,27 @@ public class SHAdapter extends BaseAdapter
     mainObservation = SHBuilder.buildMainObservation(dataElement, components, value, patientEntry);
     entries.add(mainObservation);
 
-    collectCalorie(entries, dataElement, mainObservation, patientEntry);
+    if (obsType.equals("nutrition")) {
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "total_fat", "total_fat", "grams", "gr");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "calorie", "calorie", "kilocalories", "kcal");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "sugar", "sugar", "grams", "gr");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "saturated_fat", "saturated_fat", "grams", "gr");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "polysaturated_fat", "polysaturated_fat", "grams", "gr");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "monosaturated_fat", "monosaturated_fat", "grams", "gr");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "carbohydrate", "carbohydrate", "grams", "gr");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "dietary_fiber", "dietary_fiber", "grams", "gr");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "protein", "protein", "grams", "gr");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "cholesterol", "cholesterol", "milligrams", "mg");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "sodium", "sodium", "milligrams", "mg");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "potassium", "potassium", "milligrams", "mg");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "vitamin_a", "vitamin_a", "%", "%");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "vitamin_c", "vitamin_c", "%", "%");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "calcium", "calcium", "%", "%");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "iron", "iron", "%", "%");
+      collectNutritionItem(entries, dataElement, mainObservation, patientEntry, "trans_fat", "trans_fat", "grams", "gr");
+    } else {
+      collectCalorie(entries, dataElement, mainObservation, patientEntry);
+    }
     collectCount(entries, dataElement, mainObservation, patientEntry);
     collectDistance(entries, dataElement, mainObservation, patientEntry);
     collectSpeed(entries, dataElement, mainObservation, patientEntry);
@@ -156,6 +176,47 @@ public class SHAdapter extends BaseAdapter
     collectRpm(entries, dataElement, mainObservation, patientEntry);
     collectVo2Max(entries, dataElement, mainObservation, patientEntry);
     collectLocation(entries, dataElement, mainObservation, patientEntry);
+  }
+
+  private static void collectNutritionItem(
+          Collection<Bundle.Entry> entries,
+          JSONObject dataElement,
+          Bundle.Entry parentEntry,
+          Bundle.Entry patientEntry,
+          String itemName,
+          String itemCode,
+          String itemMeasureUnit,
+          String itemMeasureUnitCode
+  ) {
+    String entryValue = SHBuilder.getValue(dataElement, itemName);
+    if (!StringUtils.isBlank(entryValue)) {
+      String uuid = dataElement.getString("data_uuid");
+
+      Collection<Observation.Component> components = new LinkedList<>();
+
+      //
+      // aggregated observation
+      String aggregatedId = String.format("%s-" + itemName.replaceAll("_", "-"), uuid);
+      Bundle.Entry aggregatedObservation = SHBuilder.buildAggregatedObservation(
+              aggregatedId,
+              dataElement,
+              buildCodeableConcept(buildCoding(
+                      LOCAL_SYSTEM,
+                      itemCode,
+                      itemName
+              )),
+              components,
+              BaseBuilder.buildQuantity(
+                      Decimal.of(entryValue),
+                      itemMeasureUnit,
+                      UNITSOFM_SYSTEM,
+                      itemMeasureUnitCode
+              ),
+              parentEntry,
+              patientEntry
+      );
+      entries.add(aggregatedObservation);
+    }
   }
 
   private static void collectCalendarEvent(

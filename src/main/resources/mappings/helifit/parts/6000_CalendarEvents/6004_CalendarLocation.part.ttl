@@ -1,0 +1,52 @@
+# ############################################################################ #
+#                                  CalendarLocation
+# ############################################################################ #
+
+<#CalendarLocation> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Appointment' && @.resource.appointmentType.coding[0].code != 'iCalendar')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/E53/code/{resource.appointmentType.coding[0].code}/id/{resource.id}";
+    rr:class ho:E53Place;
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P168placeIsIdentifiedBy;
+    rr:objectMap [
+      rr:parentTriplesMap <#CalendarLocationIdentifier>;
+      rr:joinCondition [
+        rr:child "resource.id";
+        rr:parent "resource.id";
+      ];
+    ];
+  ];
+.
+
+<#CalendarLocationIdentifier> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Appointment' && @.resource.appointmentType.coding[0].code != 'iCalendar')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/E94/code/{resource.appointmentType.coding[0].code}/id/{resource.id}";
+    rr:class ho:E94SpacePrimitive;
+  ];
+
+  #
+  # Data
+  #
+  #rr:predicateObjectMap [
+  #  rr:predicate ho:P3hasNote;
+  #  rr:objectMap [
+  #    rml:reference "resource.appointmentType.coding[0].system";
+  #  ]
+  #];
+.
+
+# /CalendarLocation

@@ -95,7 +95,9 @@ class SHBuilder extends BaseBuilder {
                     Extension.builder().value(vCalendar.getString("CALSCALE")).url("CALSCALE").build(),
                     Extension.builder().value(vCalendar.getString("METHOD")).url("METHOD").build(),
                     Extension.builder().value(vCalendar.getString("X-WR-CALNAME")).url("X-WR-CALNAME").build(),
-                    Extension.builder().value(vCalendar.getString("X-WR-TIMEZONE")).url("X-WR-TIMEZONE").build()
+                    Extension.builder().value(vCalendar.getString("X-WR-TIMEZONE")).url("X-WR-TIMEZONE").build(),
+                    Extension.builder().value(vEvent.getString("STATUS")).url("STATUS").build(),
+                    Extension.builder().value(createAppointmentTime(vEvent.getString("DTSTAMP"), timezone)).url("DTSTAMP").build()
             )
             .description(vEvent.getString("DESCRIPTION"))
             .build();
@@ -370,39 +372,55 @@ class SHBuilder extends BaseBuilder {
       ? getValue(dataElement, "end_time")
       : null;
 
-    return buildEntry(
-      Observation.builder()
-        .id(uuid)
-        .status(ObservationStatus.FINAL)
-        .identifier(
-          buildIdentifier(
-            BASE_URL + "/identifier",
-            "Observation/" + uuid
-          )
-        )
-        .code(
-          getCodes(dataElement)
-        )
-        .effective(
-          endTime != null
-            ? buildPeriod(startTime, endTime, zoneOffset)
-            : buildDateTime(startTime, zoneOffset)
-        )
-        .component(components)
-        .value(value)
-        .device(
-          buildReference(buildIdentifier(
-            BASE_URL + "/device", deviceId
-          ))
-        )
-        .subject(
-          buildReference(patientEntry)
-        )
-        .build(),
-      "Observation",
-      null,
-      buildFullUrl(BASE_URL + "/observation/" + uuid)
+
+
+    Observation.Builder builder = Observation.builder();
+    builder
+            .id(uuid)
+            .status(ObservationStatus.FINAL)
+            .identifier(
+                    buildIdentifier(
+                            BASE_URL + "/identifier",
+                            "Observation/" + uuid
+                    )
+            )
+            .code(
+                    getCodes(dataElement)
+            )
+            .effective(
+                    endTime != null
+                            ? buildPeriod(startTime, endTime, zoneOffset)
+                            : buildDateTime(startTime, zoneOffset)
+            )
+            .component(components)
+            .value(value)
+            .device(
+                    buildReference(buildIdentifier(
+                            BASE_URL + "/device", deviceId
+                    ))
+            )
+            .subject(
+                    buildReference(patientEntry)
+            );
+
+    if (dataElement.has("type_id") && dataElement.getString("type_id").equals("nutrition")) {
+      JSONObject values = dataElement.getJSONArray("values").getJSONObject(0);
+      builder.category(CodeableConcept.builder().coding(
+              Coding.builder()
+                      .code(Code.builder().value(values.getString("meal_type")).build())
+                      .display(Code.builder().value(values.getString("meal_type")).build())
+                      .system(Uri.builder().value(LOCAL_SYSTEM).build())
+                      .build()
+      ).build());
+    }
+
+    Bundle.Entry entry = buildEntry(builder.build(),
+            "Observation",
+            null,
+            buildFullUrl(BASE_URL + "/observation/" + uuid)
     );
+
+    return entry;
   }
 
   public static Bundle.Entry buildAggregatedObservation(

@@ -6,7 +6,7 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'nutrition')]"
   ];
 
   rr:subjectMap [
@@ -25,18 +25,7 @@
   # Metadata
   #
   rr:predicateObjectMap [
-    rr:predicate ho:P1isIdentifiedBy;
-    rr:objectMap [
-      rr:parentTriplesMap <#TemportalEntityIdentifier>;
-      rr:joinCondition [
-        rr:child "resource.id";
-        rr:parent "resource.id";
-      ];
-    ];
-  ];
-
-  rr:predicateObjectMap [
-    rr:predicate ho:P140assignedAttributeTo;
+    rr:predicate ho:P14carriedOutBy;
     rr:objectMap [
       rr:parentTriplesMap <#Patient>;
       rr:joinCondition [
@@ -62,7 +51,7 @@
       rr:parentTriplesMap <#NutritionType>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.id";
       ];
     ];
   ];
@@ -86,11 +75,11 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'meal_type')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'nutrition')]]"
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/HLF277/code/{code.coding[0].code}/id/{resourceId}";
+    rr:template "https://opensource.samsung.com/projects/helifit/type/HLF277/code/{resource.code.coding[0].code}/id/{resource.id}";
     rr:class ho:HLF277MealType;
   ];
 
@@ -100,7 +89,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P90hasValue;
     rr:objectMap [
-      rml:reference "valueString";
+      rml:reference "resource.category[0].coding[0].code";
     ]
   ];
 .
@@ -109,7 +98,7 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'nutrition')]"
   ];
 
   rr:subjectMap [
@@ -162,7 +151,7 @@
       rr:parentTriplesMap <#HeliosFatDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -172,7 +161,7 @@
       rr:parentTriplesMap <#HeliosSaturatedFatDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -182,7 +171,7 @@
       rr:parentTriplesMap <#HeliosPolySaturatedFatDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -192,7 +181,7 @@
       rr:parentTriplesMap <#HeliosMonoSaturatedFatDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -202,17 +191,7 @@
       rr:parentTriplesMap <#HeliosCarbsDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
-      ];
-    ];
-  ];
-  rr:predicateObjectMap [
-    rr:predicate ho:P40observedDimension;
-    rr:objectMap [
-      rr:parentTriplesMap <#HeliosCarbsDimension>;
-      rr:joinCondition [
-        rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -222,7 +201,7 @@
       rr:parentTriplesMap <#HeliosDietaryFiberDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -232,17 +211,7 @@
       rr:parentTriplesMap <#HeliosProteinDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
-      ];
-    ];
-  ];
-  rr:predicateObjectMap [
-    rr:predicate ho:P40observedDimension;
-    rr:objectMap [
-      rr:parentTriplesMap <#HeliosGlucoseDimension>;
-      rr:joinCondition [
-        rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -252,7 +221,7 @@
       rr:parentTriplesMap <#HeliosCholesterolDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -262,7 +231,7 @@
       rr:parentTriplesMap <#HeliosSodiumDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -272,7 +241,7 @@
       rr:parentTriplesMap <#HeliosPotassiumDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -282,7 +251,7 @@
       rr:parentTriplesMap <#HeliosVitaminADimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -292,7 +261,7 @@
       rr:parentTriplesMap <#HeliosVitaminCDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -302,7 +271,7 @@
       rr:parentTriplesMap <#HeliosCalsiumDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -312,7 +281,7 @@
       rr:parentTriplesMap <#HeliosIronDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
@@ -322,249 +291,29 @@
       rr:parentTriplesMap <#HeliosTransFatDimension>;
       rr:joinCondition [
         rr:child "resource.id";
-        rr:parent "resourceId";
+        rr:parent "resource.derivedFrom[0].display";
       ];
     ];
   ];
-.
-
-<#HeliosTransFatDimension> a rr:TriplesMap;
-  rml:logicalSource [
-    rml:source "__RML_SRC__";
-    rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'transfat')]"
-  ];
-
-  rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/TransFat/code/{code.coding[0].code}/id/{resourceId}";
-    rr:class helios:TransFat;
-  ];
-
-  #
-  # Data
-  #
   rr:predicateObjectMap [
-    rr:predicate ho:P91hasUnit;
+    rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rml:reference "valueQuantity.unit";
-    ]
+      rr:parentTriplesMap <#NutritionBurnedCaloriesDimension>;
+      rr:joinCondition [
+        rr:child "resource.id";
+        rr:parent "resource.derivedFrom[0].display";
+      ];
+    ];
   ];
-
   rr:predicateObjectMap [
-    rr:predicate ho:P90hasValue;
+    rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rml:reference "valueQuantity.value";
-    ]
-  ];
-.
-
-<#HeliosIronDimension> a rr:TriplesMap;
-  rml:logicalSource [
-    rml:source "__RML_SRC__";
-    rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'iron')]"
-  ];
-
-  rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/Iron/code/{code.coding[0].code}/id/{resourceId}";
-    rr:class helios:Iron;
-  ];
-
-  #
-  # Data
-  #
-  rr:predicateObjectMap [
-    rr:predicate ho:P91hasUnit;
-    rr:objectMap [
-      rml:reference "valueQuantity.unit";
-    ]
-  ];
-
-  rr:predicateObjectMap [
-    rr:predicate ho:P90hasValue;
-    rr:objectMap [
-      rml:reference "valueQuantity.value";
-    ]
-  ];
-.
-
-<#HeliosCalsiumDimension> a rr:TriplesMap;
-  rml:logicalSource [
-    rml:source "__RML_SRC__";
-    rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'calcium')]"
-  ];
-
-  rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/Calcium/code/{code.coding[0].code}/id/{resourceId}";
-    rr:class helios:Calcium;
-  ];
-
-  #
-  # Data
-  #
-  rr:predicateObjectMap [
-    rr:predicate ho:P91hasUnit;
-    rr:objectMap [
-      rml:reference "valueQuantity.unit";
-    ]
-  ];
-
-  rr:predicateObjectMap [
-    rr:predicate ho:P90hasValue;
-    rr:objectMap [
-      rml:reference "valueQuantity.value";
-    ]
-  ];
-.
-
-<#HeliosVitaminCDimension> a rr:TriplesMap;
-  rml:logicalSource [
-    rml:source "__RML_SRC__";
-    rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'vitaminc')]"
-  ];
-
-  rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/VitaminC/code/{code.coding[0].code}/id/{resourceId}";
-    rr:class helios:VitaminC;
-  ];
-
-  #
-  # Data
-  #
-  rr:predicateObjectMap [
-    rr:predicate ho:P91hasUnit;
-    rr:objectMap [
-      rml:reference "valueQuantity.unit";
-    ]
-  ];
-
-  rr:predicateObjectMap [
-    rr:predicate ho:P90hasValue;
-    rr:objectMap [
-      rml:reference "valueQuantity.value";
-    ]
-  ];
-.
-
-<#HeliosVitaminADimension> a rr:TriplesMap;
-  rml:logicalSource [
-    rml:source "__RML_SRC__";
-    rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'vitamina')]"
-  ];
-
-  rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/VitaminA/code/{code.coding[0].code}/id/{resourceId}";
-    rr:class helios:VitaminA;
-  ];
-
-  #
-  # Data
-  #
-  rr:predicateObjectMap [
-    rr:predicate ho:P91hasUnit;
-    rr:objectMap [
-      rml:reference "valueQuantity.unit";
-    ]
-  ];
-
-  rr:predicateObjectMap [
-    rr:predicate ho:P90hasValue;
-    rr:objectMap [
-      rml:reference "valueQuantity.value";
-    ]
-  ];
-.
-
-<#HeliosPotassiumDimension> a rr:TriplesMap;
-  rml:logicalSource [
-    rml:source "__RML_SRC__";
-    rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'potassium')]"
-  ];
-
-  rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/Potassium/code/{code.coding[0].code}/id/{resourceId}";
-    rr:class helios:Potassium;
-  ];
-
-  #
-  # Data
-  #
-  rr:predicateObjectMap [
-    rr:predicate ho:P91hasUnit;
-    rr:objectMap [
-      rml:reference "valueQuantity.unit";
-    ]
-  ];
-
-  rr:predicateObjectMap [
-    rr:predicate ho:P90hasValue;
-    rr:objectMap [
-      rml:reference "valueQuantity.value";
-    ]
-  ];
-.
-
-<#HeliosSodiumDimension> a rr:TriplesMap;
-  rml:logicalSource [
-    rml:source "__RML_SRC__";
-    rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'sodium')]"
-  ];
-
-  rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/Sodium/code/{code.coding[0].code}/id/{resourceId}";
-    rr:class helios:Sodium;
-  ];
-
-  #
-  # Data
-  #
-  rr:predicateObjectMap [
-    rr:predicate ho:P91hasUnit;
-    rr:objectMap [
-      rml:reference "valueQuantity.unit";
-    ]
-  ];
-
-  rr:predicateObjectMap [
-    rr:predicate ho:P90hasValue;
-    rr:objectMap [
-      rml:reference "valueQuantity.value";
-    ]
-  ];
-.
-
-<#HeliosCholesterolDimension> a rr:TriplesMap;
-  rml:logicalSource [
-    rml:source "__RML_SRC__";
-    rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'cholesterol')]"
-  ];
-
-  rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/Cholesterol/code/{code.coding[0].code}/id/{resourceId}";
-    rr:class helios:Cholesterol;
-  ];
-
-  #
-  # Data
-  #
-  rr:predicateObjectMap [
-    rr:predicate ho:P91hasUnit;
-    rr:objectMap [
-      rml:reference "valueQuantity.unit";
-    ]
-  ];
-
-  rr:predicateObjectMap [
-    rr:predicate ho:P90hasValue;
-    rr:objectMap [
-      rml:reference "valueQuantity.value";
-    ]
+      rr:parentTriplesMap <#HeliosGlucoseDimension>;
+      rr:joinCondition [
+        rr:child "resource.id";
+        rr:parent "resource.derivedFrom[0].display";
+      ];
+    ];
   ];
 .
 
@@ -572,11 +321,11 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'glucose')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'glucose')]"
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/Glucose/code/{code.coding[0].code}/id/{resourceId}";
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Glucose/code/{resource.code.coding[0].code}/id/{resource.id}";
     rr:class helios:Glucose;
   ];
 
@@ -586,14 +335,284 @@
   rr:predicateObjectMap [
     rr:predicate ho:P91hasUnit;
     rr:objectMap [
-      rml:reference "valueQuantity.unit";
+      rml:reference "resource.valueQuantity.unit";
     ]
   ];
 
   rr:predicateObjectMap [
     rr:predicate ho:P90hasValue;
     rr:objectMap [
-      rml:reference "valueQuantity.value";
+      rml:reference "resource.valueQuantity.value";
+    ]
+  ];
+.
+
+<#NutritionBurnedCaloriesDimension> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'sugar')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/HLF450/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class ho:HLF450BurnedCaloriesDimension;
+  ];
+
+  #
+  # Data
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P91hasUnit;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.unit";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P90hasValue;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.value";
+    ]
+  ];
+.
+
+<#HeliosTransFatDimension> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'trans_fat')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/TransFat/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class helios:TransFat;
+  ];
+
+  #
+  # Data
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P91hasUnit;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.unit";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P90hasValue;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.value";
+    ]
+  ];
+.
+
+<#HeliosIronDimension> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'iron')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Iron/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class helios:Iron;
+  ];
+
+  #
+  # Data
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P91hasUnit;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.unit";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P90hasValue;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.value";
+    ]
+  ];
+.
+
+<#HeliosCalsiumDimension> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'calcium')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Calcium/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class helios:Calcium;
+  ];
+
+  #
+  # Data
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P91hasUnit;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.unit";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P90hasValue;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.value";
+    ]
+  ];
+.
+
+<#HeliosVitaminCDimension> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'vitamin_c')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/VitaminC/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class helios:VitaminC;
+  ];
+
+  #
+  # Data
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P91hasUnit;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.unit";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P90hasValue;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.value";
+    ]
+  ];
+.
+
+<#HeliosVitaminADimension> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'vitamin_a')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/VitaminA/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class helios:VitaminA;
+  ];
+
+  #
+  # Data
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P91hasUnit;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.unit";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P90hasValue;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.value";
+    ]
+  ];
+.
+
+<#HeliosPotassiumDimension> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'potassium')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Potassium/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class helios:Potassium;
+  ];
+
+  #
+  # Data
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P91hasUnit;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.unit";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P90hasValue;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.value";
+    ]
+  ];
+.
+
+<#HeliosSodiumDimension> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'sodium')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Sodium/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class helios:Sodium;
+  ];
+
+  #
+  # Data
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P91hasUnit;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.unit";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P90hasValue;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.value";
+    ]
+  ];
+.
+
+<#HeliosCholesterolDimension> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'cholesterol')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Cholesterol/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class helios:Cholesterol;
+  ];
+
+  #
+  # Data
+  #
+  rr:predicateObjectMap [
+    rr:predicate ho:P91hasUnit;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.unit";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P90hasValue;
+    rr:objectMap [
+      rml:reference "resource.valueQuantity.value";
     ]
   ];
 .
@@ -602,11 +621,11 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'protein')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'protein')]"
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/Protein/code/{code.coding[0].code}/id/{resourceId}";
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Protein/code/{resource.code.coding[0].code}/id/{resource.id}";
     rr:class helios:Protein;
   ];
 
@@ -616,14 +635,14 @@
   rr:predicateObjectMap [
     rr:predicate ho:P91hasUnit;
     rr:objectMap [
-      rml:reference "valueQuantity.unit";
+      rml:reference "resource.valueQuantity.unit";
     ]
   ];
 
   rr:predicateObjectMap [
     rr:predicate ho:P90hasValue;
     rr:objectMap [
-      rml:reference "valueQuantity.value";
+      rml:reference "resource.valueQuantity.value";
     ]
   ];
 .
@@ -632,11 +651,11 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'dietaryfiber')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'dietary_fiber')]"
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/DietaryFiber/code/{code.coding[0].code}/id/{resourceId}";
+    rr:template "https://opensource.samsung.com/projects/helifit/type/DietaryFiber/code/{resource.code.coding[0].code}/id/{resource.id}";
     rr:class helios:DietaryFiber;
   ];
 
@@ -646,14 +665,14 @@
   rr:predicateObjectMap [
     rr:predicate ho:P91hasUnit;
     rr:objectMap [
-      rml:reference "valueQuantity.unit";
+      rml:reference "resource.valueQuantity.unit";
     ]
   ];
 
   rr:predicateObjectMap [
     rr:predicate ho:P90hasValue;
     rr:objectMap [
-      rml:reference "valueQuantity.value";
+      rml:reference "resource.valueQuantity.value";
     ]
   ];
 .
@@ -662,11 +681,11 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'carbohydrate')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'carbohydrate')]"
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/Carbs/code/{code.coding[0].code}/id/{resourceId}";
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Carbs/code/{resource.code.coding[0].code}/id/{resource.id}";
     rr:class helios:Carbs;
   ];
 
@@ -676,14 +695,14 @@
   rr:predicateObjectMap [
     rr:predicate ho:P91hasUnit;
     rr:objectMap [
-      rml:reference "valueQuantity.unit";
+      rml:reference "resource.valueQuantity.unit";
     ]
   ];
 
   rr:predicateObjectMap [
     rr:predicate ho:P90hasValue;
     rr:objectMap [
-      rml:reference "valueQuantity.value";
+      rml:reference "resource.valueQuantity.value";
     ]
   ];
 .
@@ -692,11 +711,11 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'mono_saturated_fat')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'monosaturated_fat')]"
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/MonounsaturatedLipid/code/{code.coding[0].code}/id/{resourceId}";
+    rr:template "https://opensource.samsung.com/projects/helifit/type/MonounsaturatedLipid/code/{resource.code.coding[0].code}/id/{resource.id}";
     rr:class helios:MonounsaturatedLipid;
   ];
 
@@ -706,14 +725,14 @@
   rr:predicateObjectMap [
     rr:predicate ho:P91hasUnit;
     rr:objectMap [
-      rml:reference "valueQuantity.unit";
+      rml:reference "resource.valueQuantity.unit";
     ]
   ];
 
   rr:predicateObjectMap [
     rr:predicate ho:P90hasValue;
     rr:objectMap [
-      rml:reference "valueQuantity.value";
+      rml:reference "resource.valueQuantity.value";
     ]
   ];
 .
@@ -722,11 +741,11 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'poly_saturated_fat')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'polysaturated_fat')]"
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/PolyunsaturatedLipid/code/{code.coding[0].code}/id/{resourceId}";
+    rr:template "https://opensource.samsung.com/projects/helifit/type/PolyunsaturatedLipid/code/{resource.code.coding[0].code}/id/{resource.id}";
     rr:class helios:PolyunsaturatedLipid;
   ];
 
@@ -736,14 +755,14 @@
   rr:predicateObjectMap [
     rr:predicate ho:P91hasUnit;
     rr:objectMap [
-      rml:reference "valueQuantity.unit";
+      rml:reference "resource.valueQuantity.unit";
     ]
   ];
 
   rr:predicateObjectMap [
     rr:predicate ho:P90hasValue;
     rr:objectMap [
-      rml:reference "valueQuantity.value";
+      rml:reference "resource.valueQuantity.value";
     ]
   ];
 .
@@ -752,11 +771,11 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'saturated_fat')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'saturated_fat')]]"
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/SaturatedLipid/code/{code.coding[0].code}/id/{resourceId}";
+    rr:template "https://opensource.samsung.com/projects/helifit/type/SaturatedLipid/code/{resource.code.coding[0].code}/id/{resource.id}";
     rr:class helios:SaturatedLipid;
   ];
 
@@ -766,14 +785,14 @@
   rr:predicateObjectMap [
     rr:predicate ho:P91hasUnit;
     rr:objectMap [
-      rml:reference "valueQuantity.unit";
+      rml:reference "resource.valueQuantity.unit";
     ]
   ];
 
   rr:predicateObjectMap [
     rr:predicate ho:P90hasValue;
     rr:objectMap [
-      rml:reference "valueQuantity.value";
+      rml:reference "resource.valueQuantity.value";
     ]
   ];
 .
@@ -782,11 +801,11 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'meal')].resource.component[?(@.code.coding[0].code == 'fat')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'total_fat')]]"
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/Lipid/code/{code.coding[0].code}/id/{resourceId}";
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Lipid/code/{resource.code.coding[0].code}/id/{resource.id}";
     rr:class helios:Lipid;
   ];
 
@@ -796,14 +815,14 @@
   rr:predicateObjectMap [
     rr:predicate ho:P91hasUnit;
     rr:objectMap [
-      rml:reference "valueQuantity.unit";
+      rml:reference "resource.valueQuantity.unit";
     ]
   ];
 
   rr:predicateObjectMap [
     rr:predicate ho:P90hasValue;
     rr:objectMap [
-      rml:reference "valueQuantity.value";
+      rml:reference "resource.valueQuantity.value";
     ]
   ];
 .

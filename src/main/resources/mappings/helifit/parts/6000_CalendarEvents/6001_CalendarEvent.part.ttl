@@ -6,26 +6,12 @@
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/HLFXXX/code/{resource.appointmentType.coding[0].code}/id/{resource.id}";
-    rr:class ho:HLFXXXICalendar;
-  ];
-
-  #
-  # Metadata
-  #
-  rr:predicateObjectMap [
-    rr:predicate ho:P2hasType;
-    rr:objectMap [
-      rr:parentTriplesMap <#AppointmentEntityIdentifier>;
-      rr:joinCondition [
-        rr:child "resource.id";
-        rr:parent "resource.id";
-      ];
-    ];
+    rr:template "https://opensource.samsung.com/projects/helifit/type/HLF900/code/{resource.appointmentType.coding[0].code}/id/{resource.id}";
+    rr:class ho:HLF900iCalendarObject;
   ];
 
   rr:predicateObjectMap [
-    rr:predicate ho:P140assignedAttributeTo;
+    rr:predicate ho:P67refersTo;
     rr:objectMap [
       rr:parentTriplesMap <#Patient>;
       rr:joinCondition [
@@ -36,7 +22,7 @@
   ];
 
   rr:predicateObjectMap [
-    rr:predicate ho:P148hasComponent;
+    rr:predicate ho:P129isAbout;
     rr:objectMap [
       rr:parentTriplesMap <#CalendarEvent>;
       rr:joinCondition [
@@ -55,15 +41,12 @@
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/HLFXXX/code/{resource.appointmentType.coding[0].code}/id/{resource.id}";
-    rr:class ho:HLFXXXCalendarEvent;
+    rr:template "https://opensource.samsung.com/projects/helifit/type/HLF901/code/{resource.appointmentType.coding[0].code}/id/{resource.id}";
+    rr:class ho:HLF901CalendarEvent;
   ];
 
-  #
-  # Metadata
-  #
   rr:predicateObjectMap [
-    rr:predicate ho:P1isIdentifiedBy;
+    rr:predicate ho:P2hasType;
     rr:objectMap [
       rr:parentTriplesMap <#AppointmentEntityIdentifier>;
       rr:joinCondition [
@@ -74,11 +57,11 @@
   ];
 
   rr:predicateObjectMap [
-    rr:predicate ho:P140assignedAttributeTo;
+    rr:predicate ho:P7tookPlaceAt;
     rr:objectMap [
-      rr:parentTriplesMap <#Patient>;
+      rr:parentTriplesMap <#CalendarLocation>;
       rr:joinCondition [
-        rr:child "resource.participant[0].actor.display";
+        rr:child "resource.id";
         rr:parent "resource.id";
       ];
     ];
@@ -93,5 +76,26 @@
         rr:parent "resource.id";
       ];
     ];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:P3hasNote;
+    rr:objectMap [
+      rml:reference "resource.extension[?(@.url == 'SUMMARY')].valueString";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:EPXXXhasCalendarScale;
+    rr:objectMap [
+      rml:reference "resource.extension[?(@.url == 'CALSCALE')].valueString";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:EPXXXhasStatus;
+    rr:objectMap [
+      rml:reference "resource.extension[?(@.url == 'STATUS')].valueString";
+    ]
   ];
 .

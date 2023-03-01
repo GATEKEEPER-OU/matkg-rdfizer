@@ -10,8 +10,8 @@
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/E42/code/{resource.appointmentType.coding[0].code}";
-    rr:class ho:E42Identifier;
+    rr:template "https://opensource.samsung.com/projects/helifit/type/HLF902/code/{resource.appointmentType.coding[0].code}";
+    rr:class ho:HLF902CalendarEventType;
   ];
 
   #
