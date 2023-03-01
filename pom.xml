@@ -45,8 +45,14 @@
     <testSourceDirectory>src/test/java</testSourceDirectory>
     <finalName>${project.artifactId}-${project.version}</finalName>
 
-    <plugins>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
 
+    <plugins>
       <plugin> <!-- Run this command
                     <code>$ mvn clean package</code>
                     -->
@@ -84,7 +90,7 @@
 
       <plugin> <!-- Added this one for building with all the dependencies run the command from terminal inside IJ_IDEA:
                     <code>$ mvn clean compile assembly:single</code>
-                    The rdfizer.jar in in Targer folder  -->
+                    The rdfizer.jar in Target folder  -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
@@ -99,9 +105,15 @@
           <outputDirectory>${project.basedir}/out/artifacts</outputDirectory>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
+
+  <repositories>
+    <repository>
+      <id>local-lib-repository</id>
+      <url>file://${project.basedir}/lib/rdfox-v6.0/JRDFox.jar</url>
+    </repository>
+  </repositories>
 
   <dependencies>
     <!-- https://mvnrepository.com/artifact/com.ibm.fhir/fhir-model -->
@@ -152,9 +164,28 @@
       <groupId>tech.oxfordsemantic</groupId>
       <artifactId>jrdfox</artifactId>
       <version>6.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/rdfox-v6.0/JRDFox.jar</systemPath>
+      <scope>test</scope>
     </dependency>
+
+    <dependency> <!-- FIX
+                      SLF4J: Class path contains multiple SLF4J bindings
+                      @solution https://www.baeldung.com/slf4j-classpath-multiple-bindings -->
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-fuseki1</artifactId>
+      <version>3.9.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- /FIX -->
+
   </dependencies>
 
 </project>

@@ -6,7 +6,9 @@
     </encoder>
   </appender>
 
-  <root level="OFF">
+  <!-- TODO appender on file -->
+
+  <root level="INFO">
     <appender-ref ref="CONSOLE"/>
   </root>
 

@@ -8,13 +8,10 @@ TIMESTAMP=$(date +%s)
 
 source_type=sh # TODO get as arg
 
-# TODO
-# export 'java -jar rdfizer' as global command and improve /data directory
-
 docker run --rm \
-  -v "${WORKING_DIR}/_tmp":/app/data \
+  -v "${WORKING_DIR}/_tmp":/data \
   ${IMAGE_NAME} \
-    --input "./data/datasets/${source_type}" \
+    --input "./datasets/${source_type}" \
     --input-format ${source_type} \
-    --output-dir "./data/output/${source_type}-${TIMESTAMP}" \
+    --output-dir "./output/${source_type}-${TIMESTAMP}" \
     --output-format turtle

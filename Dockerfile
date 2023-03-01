@@ -1,11 +1,14 @@
 FROM amazoncorretto:17-alpine
 
-WORKDIR /app
-COPY ./out/artifacts/rdfizer/ .
+ENV RDFIZERVERS=1.1.2
 
-# TODO
-#   set rdfizer VERS env var
-#   create symbolic link rdfizer-VERS -> rdfizer
-#   change entrypoint rdfizer name
+WORKDIR /data
+COPY ./out/artifacts/rdfizer/ /app
 
-ENTRYPOINT ["java", "-jar", "rdfizer-1.1.2.jar"]
+RUN cd /app; \
+    (echo '#!/bin/sh' && echo 'exec java -jar $0 "$@"' && cat rdfizer-${RDFIZERVERS}.jar) > rdfizer; \
+    chmod +x rdfizer; \
+    ln -s /app/rdfizer /usr/local/bin/rdfizer; \
+    rm rdfizer-${RDFIZERVERS}.jar
+
+ENTRYPOINT ["rdfizer"]

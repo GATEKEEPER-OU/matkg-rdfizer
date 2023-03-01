@@ -3,6 +3,7 @@ package org.ou.gatekeeper;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FileUtils;
 import org.commons.FilenameUtils;
+import org.commons.ResourceUtils;
 import org.ou.gatekeeper.adapters.DataAdapter;
 import org.ou.gatekeeper.adapters.DataAdapters;
 import org.ou.gatekeeper.rdf.enums.OutputFormat;
@@ -11,7 +12,9 @@ import org.ou.gatekeeper.rdf.mappings.HelifitMapping;
 import org.ou.gatekeeper.rdf.mappings.RMLMapping;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
+import java.util.Properties;
 
 /**
  * @author Riccardo Pala (riccardo.pala@open.ac.uk)
@@ -19,7 +22,7 @@ import java.util.Iterator;
  */
 public class RDFizerConsole {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     try {
       CommandLine cmd = setupArguments(args);
       // TODO double-check input validation
@@ -30,12 +33,19 @@ public class RDFizerConsole {
         return;
       }
 
+      if (cmd.hasOption("version")) {
+        // TODO see how to suppress SLF4J messages
+        final Properties properties = new Properties();
+        properties.load(ResourceUtils.getResourceAsStream("project.properties"));
+        System.out.println(properties.getProperty("version"));
+        return;
+      }
+
       setupOutput(cmd);
       setupAdapter(cmd);
       setupMapping();
 
-      File input = new File(cmd.getOptionValue("input"));
-      // NOTE doesn't need to be check, because it a required() option
+      File input = getInputArg(cmd);
       if (input.isDirectory()) {
         runBatch(input);
       } else {
@@ -73,18 +83,20 @@ public class RDFizerConsole {
         .longOpt("help")
         .build());
     options.addOption(
+      Option.builder("v")
+        .longOpt("version")
+        .build());
+    options.addOption(
       Option.builder("t")
         .longOpt("input-format")
         .hasArg().argName("FORMAT")
         .desc("Format of input data. Values allowed: [ fhir, css, sh ].")
-        .required()
         .build());
     options.addOption(
       Option.builder("i")
         .longOpt("input")
         .hasArg().argName("FILE or DIR")
         .desc("The input file or directory than contains the dataset.")
-        .required()
         .build());
     options.addOption(
       Option.builder("y")
@@ -114,7 +126,36 @@ public class RDFizerConsole {
     String header = "Do something useful with an input file\n\n";
     String footer = "\nPlease report issues at https://github.com/GATEKEEPER-OU/rdfizer-java/issues";
     HelpFormatter formatter = new HelpFormatter();
-    formatter.printHelp("java -jar rdfizer.jar", header, options, footer, true);
+    formatter.printHelp("rdfizer", header, options, footer, true);
+  }
+
+  private static File getInputArg(CommandLine cmd) throws MissingArgumentException {
+    final String INPUT = "input";
+    if (!cmd.hasOption(INPUT)) {
+      String message = String.format("--%s is missing.", INPUT);
+      throw new MissingArgumentException(message);
+    }
+    return new File(cmd.getOptionValue(INPUT));
+  }
+
+  private static void setupAdapter(CommandLine cmd) throws MissingArgumentException {
+    final String INPUT_FORMAT = "input-format";
+    if (!cmd.hasOption(INPUT_FORMAT)) {
+      String message = String.format("--%s is missing.", INPUT_FORMAT);
+      throw new MissingArgumentException(message);
+    }
+    String inputFormat = cmd.getOptionValue(INPUT_FORMAT);
+    adapter = DataAdapters.getDataAdapter(inputFormat);
+  }
+
+  private static void setupMapping() throws MissingArgumentException {
+    if (outputFileExt == null) {
+      String funcName = "setupOutputFileExt()";
+      String message = String.format("'%s' should be call first", funcName);
+      throw new IllegalStateException(message);
+    }
+    OutputFormat outputFormat = OutputFormats.getOutputFormat(outputFileExt);
+    mapping = HelifitMapping.create(outputFormat);
   }
 
   private static void setupOutput(CommandLine cmd) {
@@ -131,26 +172,6 @@ public class RDFizerConsole {
     //
     final String OUTPUT_FORMAT = "output-format";
     outputFileExt = cmd.hasOption(OUTPUT_FORMAT) ? cmd.getOptionValue(OUTPUT_FORMAT) : "nt";
-  }
-
-  private static void setupAdapter(CommandLine cmd) throws MissingArgumentException {
-    final String INPUT_FORMAT = "input-format";
-    if (!cmd.hasOption(INPUT_FORMAT)) {
-      String message = String.format("'%s' is missing.", INPUT_FORMAT);
-      throw new MissingArgumentException(message);
-    }
-    String inputFormat = cmd.getOptionValue(INPUT_FORMAT);
-    adapter = DataAdapters.getDataAdapter(inputFormat);
-  }
-
-  private static void setupMapping() throws MissingArgumentException {
-    if (outputFileExt == null) {
-      String funcName = "setupOutputFileExt()";
-      String message = String.format("'%s' should be call first", funcName);
-      throw new IllegalStateException(message);
-    }
-    OutputFormat outputFormat = OutputFormats.getOutputFormat(outputFileExt);
-    mapping = HelifitMapping.create(outputFormat);
   }
 
   private static void run(File inputFile) {
