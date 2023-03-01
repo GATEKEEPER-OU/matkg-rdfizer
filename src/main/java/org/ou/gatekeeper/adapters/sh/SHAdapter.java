@@ -265,11 +265,8 @@ public class SHAdapter extends BaseAdapter
   }
 
   /**
-<<<<<<< HEAD:src/main/java/org/ou/gatekeeper/fhir/adapters/sh/SHAdapter.java
    * @todo descriptioncollectCalendarEvent
-=======
    * TODO description
->>>>>>> 87ed271a3b3588d5ffcea0e2f907d788749be91d:src/main/java/org/ou/gatekeeper/adapters/sh/SHAdapter.java
    */
   private static void collectSleepObservations(
     Collection<Bundle.Entry> entries,
