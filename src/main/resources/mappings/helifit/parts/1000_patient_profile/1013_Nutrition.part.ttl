@@ -38,7 +38,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P4hasTimeSpan;
     rr:objectMap [
-      rr:parentTriplesMap <#EffectiveDateTime>;
+      rr:parentTriplesMap <#NutritionEffectiveDateTime>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.id";
@@ -87,7 +87,7 @@
   # Data
   #
   rr:predicateObjectMap [
-    rr:predicate ho:P90hasValue;
+    rr:predicate ho:P3hasNote;
     rr:objectMap [
       rml:reference "resource.category[0].coding[0].code";
     ]
@@ -107,48 +107,12 @@
   ];
 
   #
-  # Metadata
-  #
-  rr:predicateObjectMap [
-    rr:predicate ho:P1isIdentifiedBy;
-    rr:objectMap [
-      rr:parentTriplesMap <#TemportalEntityIdentifier>;
-      rr:joinCondition [
-        rr:child "resource.id";
-        rr:parent "resource.id";
-      ];
-    ];
-  ];
-
-  rr:predicateObjectMap [
-    rr:predicate ho:P140assignedAttributeTo;
-    rr:objectMap [
-      rr:parentTriplesMap <#Patient>;
-      rr:joinCondition [
-        rr:child "resource.subject.display";
-        rr:parent "resource.id";
-      ];
-    ];
-  ];
-
-  rr:predicateObjectMap [
-    rr:predicate ho:P4hasTimeSpan;
-    rr:objectMap [
-      rr:parentTriplesMap <#EffectiveDateTime>;
-      rr:joinCondition [
-        rr:child "resource.id";
-        rr:parent "resource.id";
-      ];
-    ];
-  ];
-
-  #
   # Link(s)
   #
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosFatDimension>;
+      rr:parentTriplesMap <#NactFatDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -158,7 +122,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosSaturatedFatDimension>;
+      rr:parentTriplesMap <#NactSaturatedFatDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -168,7 +132,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosPolySaturatedFatDimension>;
+      rr:parentTriplesMap <#NactPolySaturatedFatDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -178,7 +142,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosMonoSaturatedFatDimension>;
+      rr:parentTriplesMap <#NactMonoSaturatedFatDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -188,7 +152,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosCarbsDimension>;
+      rr:parentTriplesMap <#NactCarbsDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -198,7 +162,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosDietaryFiberDimension>;
+      rr:parentTriplesMap <#NactDietaryFiberDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -208,7 +172,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosProteinDimension>;
+      rr:parentTriplesMap <#NactProteinDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -218,7 +182,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosCholesterolDimension>;
+      rr:parentTriplesMap <#NactCholesterolDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -228,7 +192,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosSodiumDimension>;
+      rr:parentTriplesMap <#NactSodiumDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -238,7 +202,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosPotassiumDimension>;
+      rr:parentTriplesMap <#NactPotassiumDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -248,7 +212,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosVitaminADimension>;
+      rr:parentTriplesMap <#NactVitaminADimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -258,7 +222,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosVitaminCDimension>;
+      rr:parentTriplesMap <#NactVitaminCDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -268,7 +232,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosCalsiumDimension>;
+      rr:parentTriplesMap <#NactCalsiumDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -278,7 +242,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosIronDimension>;
+      rr:parentTriplesMap <#NactIronDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -298,7 +262,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#NutritionBurnedCaloriesDimension>;
+      rr:parentTriplesMap <#NactSugarDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -308,7 +272,7 @@
   rr:predicateObjectMap [
     rr:predicate ho:P40observedDimension;
     rr:objectMap [
-      rr:parentTriplesMap <#HeliosGlucoseDimension>;
+      rr:parentTriplesMap <#NactGlucoseDimension>;
       rr:joinCondition [
         rr:child "resource.id";
         rr:parent "resource.derivedFrom[0].display";
@@ -317,7 +281,7 @@
   ];
 .
 
-<#HeliosGlucoseDimension> a rr:TriplesMap;
+<#NactGlucoseDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -326,7 +290,7 @@
 
   rr:subjectMap [
     rr:template "https://opensource.samsung.com/projects/helifit/type/Glucose/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:Glucose;
+    rr:class nact:Glucose;
   ];
 
   #
@@ -347,7 +311,7 @@
   ];
 .
 
-<#NutritionBurnedCaloriesDimension> a rr:TriplesMap;
+<#NactSugarDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -355,8 +319,8 @@
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/HLF450/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class ho:HLF450BurnedCaloriesDimension;
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Sugar/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class nact:Sugar;
   ];
 
   #
@@ -407,7 +371,7 @@
   ];
 .
 
-<#HeliosIronDimension> a rr:TriplesMap;
+<#NactIronDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -416,7 +380,7 @@
 
   rr:subjectMap [
     rr:template "https://opensource.samsung.com/projects/helifit/type/Iron/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:Iron;
+    rr:class nact:Iron;
   ];
 
   #
@@ -437,7 +401,7 @@
   ];
 .
 
-<#HeliosCalsiumDimension> a rr:TriplesMap;
+<#NactCalsiumDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -446,7 +410,7 @@
 
   rr:subjectMap [
     rr:template "https://opensource.samsung.com/projects/helifit/type/Calcium/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:Calcium;
+    rr:class nact:Calcium;
   ];
 
   #
@@ -467,7 +431,7 @@
   ];
 .
 
-<#HeliosVitaminCDimension> a rr:TriplesMap;
+<#NactVitaminCDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -476,7 +440,7 @@
 
   rr:subjectMap [
     rr:template "https://opensource.samsung.com/projects/helifit/type/VitaminC/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:VitaminC;
+    rr:class nact:C;
   ];
 
   #
@@ -497,7 +461,7 @@
   ];
 .
 
-<#HeliosVitaminADimension> a rr:TriplesMap;
+<#NactVitaminADimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -506,7 +470,7 @@
 
   rr:subjectMap [
     rr:template "https://opensource.samsung.com/projects/helifit/type/VitaminA/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:VitaminA;
+    rr:class nact:A;
   ];
 
   #
@@ -527,7 +491,7 @@
   ];
 .
 
-<#HeliosPotassiumDimension> a rr:TriplesMap;
+<#NactPotassiumDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -536,7 +500,7 @@
 
   rr:subjectMap [
     rr:template "https://opensource.samsung.com/projects/helifit/type/Potassium/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:Potassium;
+    rr:class nact:Potassium;
   ];
 
   #
@@ -557,7 +521,7 @@
   ];
 .
 
-<#HeliosSodiumDimension> a rr:TriplesMap;
+<#NactSodiumDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -566,7 +530,7 @@
 
   rr:subjectMap [
     rr:template "https://opensource.samsung.com/projects/helifit/type/Sodium/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:Sodium;
+    rr:class nact:Sodium;
   ];
 
   #
@@ -587,7 +551,7 @@
   ];
 .
 
-<#HeliosCholesterolDimension> a rr:TriplesMap;
+<#NactCholesterolDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -596,7 +560,7 @@
 
   rr:subjectMap [
     rr:template "https://opensource.samsung.com/projects/helifit/type/Cholesterol/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:Cholesterol;
+    rr:class nact:Cholesterol;
   ];
 
   #
@@ -617,7 +581,7 @@
   ];
 .
 
-<#HeliosProteinDimension> a rr:TriplesMap;
+<#NactProteinDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -626,7 +590,7 @@
 
   rr:subjectMap [
     rr:template "https://opensource.samsung.com/projects/helifit/type/Protein/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:Protein;
+    rr:class nact:Protein;
   ];
 
   #
@@ -647,7 +611,7 @@
   ];
 .
 
-<#HeliosDietaryFiberDimension> a rr:TriplesMap;
+<#NactDietaryFiberDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -655,8 +619,8 @@
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/DietaryFiber/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:DietaryFiber;
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Fiber/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class nact:Fiber;
   ];
 
   #
@@ -677,7 +641,7 @@
   ];
 .
 
-<#HeliosCarbsDimension> a rr:TriplesMap;
+<#NactCarbsDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -685,8 +649,8 @@
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/Carbs/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:Carbs;
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Carbohydrate/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class nact:Carbohydrate;
   ];
 
   #
@@ -707,7 +671,7 @@
   ];
 .
 
-<#HeliosMonoSaturatedFatDimension> a rr:TriplesMap;
+<#NactMonoSaturatedFatDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -715,8 +679,8 @@
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/MonounsaturatedLipid/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:MonounsaturatedLipid;
+    rr:template "https://opensource.samsung.com/projects/helifit/type/MonounsaturatedFat/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class nact:Monounsaturated_fat;
   ];
 
   #
@@ -737,7 +701,7 @@
   ];
 .
 
-<#HeliosPolySaturatedFatDimension> a rr:TriplesMap;
+<#NactPolySaturatedFatDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -745,8 +709,8 @@
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/PolyunsaturatedLipid/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:PolyunsaturatedLipid;
+    rr:template "https://opensource.samsung.com/projects/helifit/type/PolyunsaturatedFat/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class nact:Polyunsaturated_fat;
   ];
 
   #
@@ -767,7 +731,7 @@
   ];
 .
 
-<#HeliosSaturatedFatDimension> a rr:TriplesMap;
+<#NactSaturatedFatDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -775,8 +739,8 @@
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/SaturatedLipid/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:SaturatedLipid;
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Saturated_fat/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class nact:Saturated_fat;
   ];
 
   #
@@ -797,7 +761,7 @@
   ];
 .
 
-<#HeliosFatDimension> a rr:TriplesMap;
+<#NactFatDimension> a rr:TriplesMap;
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
@@ -805,8 +769,8 @@
   ];
 
   rr:subjectMap [
-    rr:template "https://opensource.samsung.com/projects/helifit/type/Lipid/code/{resource.code.coding[0].code}/id/{resource.id}";
-    rr:class helios:Lipid;
+    rr:template "https://opensource.samsung.com/projects/helifit/type/Fat/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class nact:Fat;
   ];
 
   #
@@ -823,6 +787,27 @@
     rr:predicate ho:P90hasValue;
     rr:objectMap [
       rml:reference "resource.valueQuantity.value";
+    ]
+  ];
+.
+
+<#NutritionEffectiveDateTime> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source "__RML_SRC__";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'nutrition')]"
+  ];
+
+  rr:subjectMap [
+    rr:template "https://opensource.samsung.com/projects/helifit/type/E52/code/{resource.code.coding[0].code}/id/{resource.id}";
+    rr:class ho:E52TimeSpan;
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ho:EP9effectiveDatatime;
+    rr:objectMap [
+      rml:reference "resource.effectiveDateTime";
+      rr:datatype xsd:dateTime
     ]
   ];
 .

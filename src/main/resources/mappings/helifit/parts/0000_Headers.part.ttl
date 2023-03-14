@@ -5,4 +5,5 @@
 @prefix doid: <http://purl.obolibrary.org/obo/>.
 @prefix ho: <https://opensource.samsung.com/projects/helifit/>.
 @prefix helios: <https://perkapp.fbk.eu/helis/ontology/core/>.
+@prefix nact: <http://purl.org/nact#>.
 @base <https://opensource.samsung.com/projects/helifit>.
