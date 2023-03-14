@@ -64,6 +64,7 @@
     rr:predicate ho:P90hasValue;
     rr:objectMap [
       rml:reference "valueQuantity.value";
+      rr:datatype xsd:double
     ]
   ];
 .
@@ -94,6 +95,7 @@
     rr:predicate ho:P90hasValue;
     rr:objectMap [
       rml:reference "valueQuantity.value";
+      rr:datatype xsd:double
     ]
   ];
 .
@@ -124,6 +126,7 @@
     rr:predicate ho:P90hasValue;
     rr:objectMap [
       rml:reference "valueQuantity.value";
+      rr:datatype xsd:double
     ]
   ];
 .
@@ -154,6 +157,7 @@
     rr:predicate ho:P90hasValue;
     rr:objectMap [
       rml:reference "valueQuantity.value";
+      rr:datatype xsd:double
     ]
   ];
 .

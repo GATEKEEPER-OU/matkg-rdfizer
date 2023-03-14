@@ -17,6 +17,7 @@
     rr:predicate ho:P3hasNote;
     rr:objectMap [
       rml:reference "valueQuantity.value";
+      rr:datatype xsd:double
     ]
   ];
 .
