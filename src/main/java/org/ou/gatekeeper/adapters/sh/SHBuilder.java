@@ -174,6 +174,66 @@ class SHBuilder extends BaseBuilder {
   public static CodeableConcept getCodes(JSONObject dataElement) {
     String typeId = dataElement.getString("type_id");
     switch (typeId) {
+      case "homocysteine":
+        return CodeableConcept.builder()
+          .coding(
+            buildCoding(
+              LOINC_SYSTEM,
+              "13965-9",
+              "Homocysteine"
+            )
+          )
+          .build();
+      case "waist_circumference":
+        return CodeableConcept.builder()
+          .coding(
+            buildCoding(
+              LOINC_SYSTEM,
+              "56086-2",
+              "Adult Waist Circumference Protocol"
+            )
+          )
+          .build();
+      case "hip_circumference":
+        return CodeableConcept.builder()
+          .coding(
+            buildCoding(
+              LOINC_SYSTEM,
+              "62409-8",
+              "PhenX - hip circumference protocol 020801"
+            )
+          )
+          .build();
+      case "body_temperature":
+        return CodeableConcept.builder()
+          .coding(
+            buildCoding(
+              LOINC_SYSTEM,
+              "8310-5",
+              "Body temperature"
+            )
+          )
+          .build();
+      case "body_muscle":
+        return CodeableConcept.builder()
+          .coding(
+            buildCoding(
+              LOINC_SYSTEM,
+              "73965-6",
+              "Body muscle mass/Body weight Measured"
+            )
+          )
+          .build();
+      case "body_fat":
+        return CodeableConcept.builder()
+          .coding(
+            buildCoding(
+              LOINC_SYSTEM,
+              "41982-0",
+              "Percentage of body fat Measured"
+            )
+          )
+          .build();
       case "height":
         return CodeableConcept.builder()
           .coding(
@@ -273,6 +333,60 @@ class SHBuilder extends BaseBuilder {
   public static Quantity getMainValue(JSONObject dataElement) {
     String typeId = dataElement.getString("type_id");
     switch (typeId) {
+      case "homocysteine":
+        return buildQuantity(
+          Decimal.of(
+            SHBuilder.getValue(dataElement, "homocysteine")
+          ),
+          "micromole per liter",
+          UNITSOFM_SYSTEM,
+          "µmol/L"
+        );
+      case "waist_circumference":
+        return buildQuantity(
+          Decimal.of(
+            SHBuilder.getValue(dataElement, "waist_circumference")
+          ),
+          "centimeter",
+          UNITSOFM_SYSTEM,
+          "cm"
+        );
+      case "hip_circumference":
+        return buildQuantity(
+          Decimal.of(
+            SHBuilder.getValue(dataElement, "hip_circumference")
+          ),
+          "centimeter",
+          UNITSOFM_SYSTEM,
+          "cm"
+        );
+      case "body_temperature":
+        return buildQuantity(
+          Decimal.of(
+            SHBuilder.getValue(dataElement, "body_temperature")
+          ),
+          "degree Celsius",
+          UNITSOFM_SYSTEM,
+          "Cel"
+        );
+      case "body_muscle":
+        return buildQuantity(
+          Decimal.of(
+            SHBuilder.getValue(dataElement, "body_muscle")
+          ),
+          "percentage",
+          UNITSOFM_SYSTEM,
+          "%"
+        );
+      case "body_fat":
+        return buildQuantity(
+          Decimal.of(
+            SHBuilder.getValue(dataElement, "body_fat")
+          ),
+          "percentage",
+          UNITSOFM_SYSTEM,
+          "%"
+        );
       case "height":
         return buildQuantity(
           Decimal.of(

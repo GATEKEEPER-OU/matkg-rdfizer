@@ -6,7 +6,7 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'body_temperature')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == '8310-5')]"
   ];
 
   rr:subjectMap [
@@ -69,7 +69,7 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'body_temperature')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == '8310-5')]"
   ];
 
   rr:subjectMap [
@@ -132,7 +132,7 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'body_temperature')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == '8310-5')]"
   ];
 
   rr:subjectMap [
@@ -159,4 +159,4 @@
   ];
 .
 
-# /BodyHeight
+# /BodyTemperature

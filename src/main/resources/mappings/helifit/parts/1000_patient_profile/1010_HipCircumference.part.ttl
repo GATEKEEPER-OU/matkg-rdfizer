@@ -6,7 +6,7 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'hip_circumference')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == '62409-8')]"
   ];
 
   rr:subjectMap [
@@ -69,7 +69,7 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'hip_circumference')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == '62409-8')]"
   ];
 
   rr:subjectMap [
@@ -132,7 +132,7 @@
   rml:logicalSource [
     rml:source "__RML_SRC__";
     rml:referenceFormulation ql:JSONPath;
-    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == 'hip_circumference')]"
+    rml:iterator "$.entry[?(@.resource.resourceType == 'Observation' && @.resource.code.coding[0].code == '62409-8')]"
   ];
 
   rr:subjectMap [
@@ -159,4 +159,4 @@
   ];
 .
 
-# /BodyHeight
+# /HipCircumference

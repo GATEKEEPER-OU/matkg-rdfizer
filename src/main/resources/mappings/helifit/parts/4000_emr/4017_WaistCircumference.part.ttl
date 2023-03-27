@@ -55,7 +55,7 @@
   # Link(s)
   #
   rr:predicateObjectMap [
-    rr:predicate ho:P141assigned;
+    rr:predicate ho:P117includes;
     rr:objectMap [
       rr:parentTriplesMap <#WaistCircumferenceMeasurement>;
       rr:joinCondition [
