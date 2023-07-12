@@ -38,75 +38,8 @@
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
-  <build>
-    <sourceDirectory>src/main/java</sourceDirectory>
-    <testSourceDirectory>src/test/java</testSourceDirectory>
-    <finalName>${project.artifactId}-${project.version}</finalName>
-
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
-
-    <plugins>
-      <plugin> <!-- Run this command
-                    <code>$ mvn clean package</code>
-                    -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.5.0</version>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.basedir}/out/artifacts/${project.artifactId}/libs</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>libs/</classpathPrefix>
-              <mainClass>org.ou.gatekeeper.RDFizerConsole</mainClass>
-            </manifest>
-          </archive>
-          <outputDirectory>${project.basedir}/out/artifacts/${project.artifactId}</outputDirectory>
-        </configuration>
-      </plugin>
-
-      <plugin> <!-- Added this one for building with all the dependencies run the command from terminal inside IJ_IDEA:
-                    <code>$ mvn clean compile assembly:single</code>
-                    The rdfizer.jar in Target folder  -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>org.ou.gatekeeper.RDFizerConsole</mainClass>
-            </manifest>
-          </archive>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-          <outputDirectory>${project.basedir}/out/artifacts</outputDirectory>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
   <repositories>
     <repository>
@@ -116,6 +49,12 @@
   </repositories>
 
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
+    <dependency>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <version>3.6.0</version>
+    </dependency>
     <!-- https://mvnrepository.com/artifact/com.ibm.fhir/fhir-model -->
     <dependency>
       <groupId>com.ibm.fhir</groupId>
@@ -187,5 +126,73 @@
     <!-- /FIX -->
 
   </dependencies>
+
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+    <finalName>${project.artifactId}-${project.version}</finalName>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin> <!-- Run this command
+                    <code>$ mvn clean package</code>
+                    -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.basedir}/out/artifacts/${project.artifactId}/libs</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>libs/</classpathPrefix>
+              <mainClass>org.ou.gatekeeper.RDFizerConsole</mainClass>
+            </manifest>
+          </archive>
+          <outputDirectory>${project.basedir}/out/artifacts/${project.artifactId}</outputDirectory>
+        </configuration>
+      </plugin>
+
+      <plugin> <!-- Added this one for building with all the dependencies run the command from terminal inside IJ_IDEA:
+                    <code>$ mvn clean compile assembly:single</code>
+                    The rdfizer.jar in Target folder  -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>org.ou.gatekeeper.RDFizerConsole</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <outputDirectory>${project.basedir}/out/artifacts</outputDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

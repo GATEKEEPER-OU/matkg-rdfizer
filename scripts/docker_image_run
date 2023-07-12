@@ -3,7 +3,7 @@
 cd $(dirname "$0")/..
 WORKING_DIR=$(pwd)
 
-IMAGE_NAME=gk-rdfizer
+IMAGE_NAME=gatekeeper/matkg-rdfizer
 TIMESTAMP=$(date +%s)
 
 source_type=sh # TODO get as arg

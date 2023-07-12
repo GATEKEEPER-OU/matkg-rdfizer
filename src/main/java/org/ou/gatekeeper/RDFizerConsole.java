@@ -124,7 +124,7 @@ public class RDFizerConsole {
   private static void printHelp() {
     // TODO change follow 'header' and 'footer'
     String header = "Do something useful with an input file\n\n";
-    String footer = "\nPlease report issues at https://github.com/GATEKEEPER-OU/rdfizer-java/issues";
+    String footer = "\nPlease report issues at https://github.com/GATEKEEPER-OU/mkg-rdfizer/issues";
     HelpFormatter formatter = new HelpFormatter();
     formatter.printHelp("rdfizer", header, options, footer, true);
   }
@@ -144,8 +144,8 @@ public class RDFizerConsole {
       String message = String.format("--%s is missing.", INPUT_FORMAT);
       throw new MissingArgumentException(message);
     }
-    String inputFormat = cmd.getOptionValue(INPUT_FORMAT);
-    adapter = DataAdapters.getDataAdapter(inputFormat);
+    String value = cmd.getOptionValue(INPUT_FORMAT);
+    adapter = DataAdapters.getDataAdapter(value);
   }
 
   private static void setupMapping() throws MissingArgumentException {
@@ -154,14 +154,14 @@ public class RDFizerConsole {
       String message = String.format("'%s' should be call first", funcName);
       throw new IllegalStateException(message);
     }
-    OutputFormat outputFormat = OutputFormats.getOutputFormat(outputFileExt);
-    mapping = HelifitMapping.create(outputFormat);
+    OutputFormat value = OutputFormats.getOutputFormat(outputFileExt);
+    mapping = HelifitMapping.create(value);
   }
 
   private static void setupOutput(CommandLine cmd) {
     //
     final String OUTPUT_DIR = "output-dir";
-    String outputPath = cmd.hasOption(OUTPUT_DIR)  ? cmd.getOptionValue(OUTPUT_DIR) : "./output";
+    String outputPath = cmd.hasOption(OUTPUT_DIR) ? cmd.getOptionValue(OUTPUT_DIR) : "./output";
     outputDir = new File(outputPath);
     if (!outputDir.exists()) {
       outputDir.mkdirs();

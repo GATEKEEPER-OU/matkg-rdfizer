@@ -3,12 +3,11 @@
 This component aims at to transform EMR (T2D Lab Tests) and PHR (Samsung Health data) to HeLiFit ontology through the use of the RML Mapper.
 
 
-
 ## Build and Create RDFizer.jar with IntelliJ IDEA as development environment
 
 1. git clone https://github.ecodesamsung.com/Health-Innovation/rdfizer.git
 2. open the project IntelliJ IDEA
-3. make sure you are using Java 17.0.2 with IntelliJ IDEA: File --> Project Structure --> Project --> SDK
+3. make sure you are using Java 17.0.2 (amazon corretto-17) with IntelliJ IDEA: File --> Project Structure --> Project --> SDK
 
 ## RDFox configuration for the RDFizer-Data-Test
 1. Download RDFox 6.0 from https://www.oxfordsemantic.tech/downloads
@@ -39,6 +38,18 @@ This component aims at to transform EMR (T2D Lab Tests) and PHR (Samsung Health 
 14. Go to Step 4. and execute 4. + 5. + 6.
 15. Check the folder out/artifacts/<project_name_jar>/ for the file <project_name>.jar (e.g.; rdfizer.jar)
 
+### Add RDFox java to maven local storage 
+Run this command in the command-line from the working directory
+
+```
+mvn install:install-file \
+   -Dfile=JRDFox.jar \
+   -DgroupId=tech.oxfordsemantic \
+   -DartifactId=jrdfox\
+   -Dversion=6.0 \
+   -Dpackaging=jar
+```
+
 ## if case of extending or editing the RML mappings files, Perform the bundle-helifit operation for merging all the set of RML rules
 1. run bundle from ant menu
 2. in case of issue, run clean from ant menu
@@ -49,6 +60,8 @@ This component aims at to transform EMR (T2D Lab Tests) and PHR (Samsung Health 
 
 
 ## Some Bookmark
+
+[Install Java Amazon corretto-17](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/generic-linux-install.html)
 
 [Ant Tutorial](https://www.javaguicodexample.com/antworksheet3.html)
 
