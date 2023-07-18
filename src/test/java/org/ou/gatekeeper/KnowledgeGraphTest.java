@@ -121,7 +121,7 @@ public class KnowledgeGraphTest {
 
     DataAdapter converter = DataAdapters.getDataAdapter(sourceType);
     RMLMapping    mapping = HelifitMapping.create(tripleFormat);
-    RDFizer.trasform(datasetFile, converter, mapping, triplesFile);
+    RDFizer.transform(datasetFile, triplesFile, converter, mapping);
 
     try (DataStoreConnection dataStoreConnection = serverConnection.newDataStoreConnection(DATASTORE_NAME)) {
       RDFoxUtils.importData(dataStoreConnection, triplesFile);

@@ -89,8 +89,8 @@ class RDFizerTest {
     File datasetFile = TestUtils.loadResource(datasetPath);
     File outputFile = TestUtils.createOutputFile("output-"+datasetName, "fhir.json");
 
-    DataAdapter converter = DataAdapters.getDataAdapter(sourceType);
-    RDFizer.trasform(datasetFile, converter, outputFile);
+    DataAdapter adapter = DataAdapters.getDataAdapter(sourceType);
+    RDFizer.transform(datasetFile, outputFile, adapter);
 
     try {
       String outputDigest = new DigestUtils(SHA3_256).digestAsHex(outputFile);
@@ -205,10 +205,10 @@ class RDFizerTest {
     OutputFormat outputFormat = OutputFormat.TURTLE;
     File outputFile = TestUtils.createOutputFile("output-"+datasetName, "turtle");
 
-    DataAdapter converter = DataAdapters.getDataAdapter(sourceType);
+    DataAdapter adapter = DataAdapters.getDataAdapter(sourceType);
     String[] partsToInclude = !modules.equals("all") ? modules.split(",") : null;
     RMLMapping mapping = HelifitMapping.create(outputFormat, partsToInclude, true);
-    RDFizer.trasform(datasetFile, converter, mapping, outputFile, false);
+    RDFizer.transform(datasetFile, outputFile, adapter, mapping,false);
 
     try {
       String outputDigest = new DigestUtils(SHA3_256).digestAsHex(outputFile);

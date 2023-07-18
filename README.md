@@ -1,4 +1,4 @@
-# RDFizer-java <!-- omit in toc -->
+# RDFizer <!-- omit in toc -->
 
 This component aims at to transform EMR (T2D Lab Tests) and PHR (Samsung Health data) to HeLiFit ontology through the use of the RML Mapper.
 

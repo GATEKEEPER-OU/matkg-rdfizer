@@ -43,7 +43,9 @@ public class RDFizerConsole {
 
       setupOutput(cmd);
       setupAdapter(cmd);
-      setupMapping();
+      if (!outputFileExt.equals("fhir")) {
+        setupMapping();
+      }
 
       File input = getInputArg(cmd);
       if (input.isDirectory()) {
@@ -86,37 +88,43 @@ public class RDFizerConsole {
       Option.builder("v")
         .longOpt("version")
         .build());
+    // TODO option for the ontology ?
     options.addOption(
-      Option.builder("t")
+      Option.builder()
+//      Option.builder("t")
         .longOpt("input-format")
         .hasArg().argName("FORMAT")
         .desc("Format of input data. Values allowed: [ fhir, css, sh ].")
         .build());
     options.addOption(
-      Option.builder("i")
+      Option.builder()
+//      Option.builder("i")
         .longOpt("input")
         .hasArg().argName("FILE or DIR")
         .desc("The input file or directory than contains the dataset.")
         .build());
     options.addOption(
-      Option.builder("y")
+      Option.builder()
+//      Option.builder("y")
         .longOpt("output-format")
         .hasArg().argName("FORMAT")
-        .desc("Type of output data. Values allowed: [ turtle, nt ]. DEFAULT 'nt'.")
+        .desc("Type of output data. Values allowed: [ fhir, turtle, nt ]. DEFAULT 'nt'.")
         .build());
     options.addOption(
-      Option.builder("o")
+      Option.builder()
+//      Option.builder("o")
         .longOpt("output-file")
         .hasArg().argName("FILE")
         .desc("The output file. If not given, it will take the input filename.")
         .build());
     options.addOption(
-      Option.builder("O")
+      Option.builder()
+//      Option.builder("O")
         .longOpt("output-dir")
         .hasArg().argName("DIR")
         .desc("The output directory. DEFAULT './output'. It will be created, if not exists.")
         .build());
-    // TODO option for the ontology ?
+    // TODO option to clean temporary files ?
     CommandLineParser parser = new DefaultParser();
     return parser.parse(options, args);
   }
@@ -154,8 +162,8 @@ public class RDFizerConsole {
       String message = String.format("'%s' should be call first", funcName);
       throw new IllegalStateException(message);
     }
-    OutputFormat value = OutputFormats.getOutputFormat(outputFileExt);
-    mapping = HelifitMapping.create(value);
+    OutputFormat format = OutputFormats.getOutputFormat(outputFileExt);
+    mapping = HelifitMapping.create(format);
   }
 
   private static void setupOutput(CommandLine cmd) {
@@ -175,14 +183,16 @@ public class RDFizerConsole {
   }
 
   private static void run(File inputFile) {
+    System.out.println("> " + outputFilename); // DEBUG
     if (outputFilename == null) {
+      String outputExt = outputFileExt.equals("fhir") ? "fhir.json" : outputFileExt;
       String inputFilename = inputFile.getName();
       String trimmedDatasetName = FilenameUtils.trim2LvlExtension(inputFilename);
       outputFilename = FilenameUtils
-        .changeExtension(trimmedDatasetName, outputFileExt);
+        .changeExtension(trimmedDatasetName, outputExt);
     }
     File outputFile = new File(outputDir, outputFilename);
-    RDFizer.trasform(inputFile, adapter, mapping, outputFile);
+    RDFizer.transform(inputFile, outputFile, adapter, mapping);
   }
 
   private static void runBatch(File inputDir) {

@@ -17,7 +17,7 @@ public class OutputFormats {
       case "nt":
         return OutputFormat.NTRIPLES;
       default:
-        throw new IllegalArgumentException("Only 'CSS' / 'FHIR' / 'SH' types allowed");
+        throw new IllegalArgumentException("Only 'nt' / 'turtle' types allowed");
     }
   }
 

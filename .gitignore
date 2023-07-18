@@ -180,5 +180,4 @@ $RECYCLE.BIN/
 _*
 target
 .idea/artifacts/*
-lib/*
-!lib/.keep
+*.lic

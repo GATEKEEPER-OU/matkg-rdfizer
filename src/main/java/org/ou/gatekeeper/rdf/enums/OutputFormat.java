@@ -1,6 +1,7 @@
 package org.ou.gatekeeper.rdf.enums;
 
 /**
+ * TODO desc
  * @author Riccardo Pala (riccardo.pala@open.ac.uk)
  */
 public enum OutputFormat {

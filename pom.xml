@@ -7,18 +7,18 @@
   <groupId>org.ou.gatekeeper</groupId>
   <artifactId>rdfizer</artifactId>
   <version>1.1.2</version>
-  <url>https://github.com/GATEKEEPER-OU/rdfizer-java</url>
+  <url>https://github.com/GATEKEEPER-OU/matkg-rdfizer</url>
   <description>
     This component aims at to transform EMR (T2D Lab Tests) and PHR (Samsung Health data) to HeLiFit ontology through the use of the RML Mapper.
   </description>
 
-<!--  <licenses>-->
-<!--    <license>-->
-<!--      <name>The MIT License</name>-->
-<!--      <url>https://github.com/GATEKEEPER-OU/rdfizer-java/master/LICENSE</url>-->
-<!--      <distribution>repo</distribution>-->
-<!--    </license>-->
-<!--  </licenses>-->
+  <!--  <licenses>-->
+  <!--    <license>-->
+  <!--      <name>The MIT License</name>-->
+  <!--      <url>https://github.com/GATEKEEPER-OU/rdfizer-java/master/LICENSE</url>-->
+  <!--      <distribution>repo</distribution>-->
+  <!--    </license>-->
+  <!--  </licenses>-->
 
   <developers>
     <developer>
@@ -49,12 +49,6 @@
   </repositories>
 
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
-    <dependency>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-assembly-plugin</artifactId>
-      <version>3.6.0</version>
-    </dependency>
     <!-- https://mvnrepository.com/artifact/com.ibm.fhir/fhir-model -->
     <dependency>
       <groupId>com.ibm.fhir</groupId>
@@ -89,42 +83,22 @@
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
-      <version>20220924</version>
+      <version>20230227</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>5.9.0</version>
+      <version>5.9.2</version>
       <scope>test</scope>
     </dependency>
     <!-- Local -->
     <dependency>
-      <groupId>tech.oxfordsemantic</groupId>
-      <artifactId>jrdfox</artifactId>
-      <version>6.0</version>
+      <groupId>tech.oxfordsemantic.jrdfox</groupId>
+      <artifactId>JRDFox</artifactId>
+      <version>6.2</version>
       <scope>test</scope>
     </dependency>
-
-    <dependency> <!-- FIX
-                      SLF4J: Class path contains multiple SLF4J bindings
-                      @solution https://www.baeldung.com/slf4j-classpath-multiple-bindings -->
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-fuseki1</artifactId>
-      <version>3.9.0</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-log4j12</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>log4j</groupId>
-          <artifactId>log4j</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <!-- /FIX -->
-
   </dependencies>
 
   <build>
@@ -139,13 +113,34 @@
       </resource>
     </resources>
 
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.6.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.3.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
-      <plugin> <!-- Run this command
-                    <code>$ mvn clean package</code>
-                    -->
-        <groupId>org.apache.maven.plugins</groupId>
+      <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.5.0</version>
         <executions>
           <execution>
             <id>copy-dependencies</id>
@@ -154,42 +149,29 @@
               <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.basedir}/out/artifacts/${project.artifactId}/libs</outputDirectory>
+              <includeScope>compile</includeScope>
+              <outputDirectory>out/artifacts/${project.artifactId}/lib</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
             </configuration>
           </execution>
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
         <configuration>
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <classpathPrefix>libs/</classpathPrefix>
+              <classpathPrefix>lib/</classpathPrefix>
               <mainClass>org.ou.gatekeeper.RDFizerConsole</mainClass>
             </manifest>
           </archive>
-          <outputDirectory>${project.basedir}/out/artifacts/${project.artifactId}</outputDirectory>
-        </configuration>
-      </plugin>
-
-      <plugin> <!-- Added this one for building with all the dependencies run the command from terminal inside IJ_IDEA:
-                    <code>$ mvn clean compile assembly:single</code>
-                    The rdfizer.jar in Target folder  -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>org.ou.gatekeeper.RDFizerConsole</mainClass>
-            </manifest>
-          </archive>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-          <outputDirectory>${project.basedir}/out/artifacts</outputDirectory>
+          <excludes>
+            <exclude></exclude>
+          </excludes>
+          <outputDirectory>out/artifacts/${project.artifactId}</outputDirectory>
         </configuration>
       </plugin>
     </plugins>

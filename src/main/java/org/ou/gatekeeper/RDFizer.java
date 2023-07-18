@@ -13,64 +13,71 @@ import static org.commons.ResourceUtils.generateUniqueFilename;
 
 /**
  * @author Riccardo Pala (riccardo.pala@open.ac.uk)
- * @todo description
+ * TODO description
  */
 public class RDFizer {
 
   /**
    * Reads dataset from file and writes the result on a file in FHIR format.
    * @param input file to convert
-   * @param converter the adapter that understands the input dataset
    * @param output RDF output file
+   * @param adapter the adapter that understands the input dataset
    * */
-  public static void trasform(
+  public static void transform(
     File input,
-    DataAdapter converter,
-    File output
+    File output,
+    DataAdapter adapter
   ) {
-    converter.toFhir(input, output);
+    transform(input, output, adapter, null);
   }
 
+  // TODO update the description for the FHIR STEP
+  // Reads dataset from file and writes the result on a file in FHIR format.
   /**
    * Reads dataset from file and writes the result on a file in RDF format.
    * @param input file to convert
+   * @param output RDF output file
    * @param adapter the adapter that understands the input dataset
    * @param mapping RML mapping file which contains mapping rules
-   * @param output RDF output file
    * */
-  public static void trasform(
+  public static void transform(
     File input,
+    File output,
     DataAdapter adapter,
-    RMLMapping mapping,
-    File output
+    RMLMapping mapping
   ) {
-    trasform(input, adapter, mapping, output, true);
+    transform(input, output, adapter, mapping, true);
   }
 
   /**
    * Reads dataset from file and writes the result on a file in RDF format.
    * @param input file to convert
+   * @param output RDF output file
    * @param adapter the adapter that understands the input dataset
    * @param mapping RML mapping file which contains mapping rules
-   * @param output RDF output file
    * @param clean if {@code false} all intermediate results will be kept
    * */
-  public static void trasform(
+  public static void transform(
     File input,
+    File output,
     DataAdapter adapter,
     RMLMapping mapping,
-    File output,
     boolean clean
   ) {
-    String inputName = FilenameUtils.removeExtension(input.getName());
-    String fhirFilename = generateUniqueFilename("output-"+inputName, "json");
+    if (mapping == null) {
+      adapter.toFhir(input, output);
+
+    } else {
+      String inputName = FilenameUtils.removeExtension(input.getName());
+      String fhirFilename = generateUniqueFilename("output-"+inputName, "json");
 //    String fhirFilename = generateUniqueFilename("output", "fhir.json");
-    File tempFhirFile = new File(TMP_DIR, fhirFilename);
-    adapter.toExtendedFhir(input, tempFhirFile);
-    mapping.setLocalSource(tempFhirFile.getAbsolutePath());
-    RDFMapper.map(mapping, output);
-    if (clean) {
-      ResourceUtils.clean(tempFhirFile);
+      File tempFhirFile = new File(TMP_DIR, fhirFilename);
+      adapter.toExtendedFhir(input, tempFhirFile);
+      mapping.setLocalSource(tempFhirFile.getAbsolutePath());
+      RDFMapper.map(mapping, output);
+      if (clean) {
+        ResourceUtils.clean(tempFhirFile);
+      }
     }
   }
 
