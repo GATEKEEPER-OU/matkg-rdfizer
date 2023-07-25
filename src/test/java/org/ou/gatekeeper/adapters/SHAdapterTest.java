@@ -21,7 +21,7 @@ class SHAdapterTest {
   @ParameterizedTest
   @CsvSource({
     // Patient
-    "xxx, keep, Patient",
+//    "xxx, keep, Patient",
     // Observations
 //    "xxx, keep, Height",
 //    "xxx, keep, Weight",
@@ -34,6 +34,7 @@ class SHAdapterTest {
 //    "xxx, keep, StepDailyTrend",
 //    "xxx, keep, HeartRate",
 //    "xxx, keep, Walking",
+    "xxx, keep, Running",
 //    "xxx, keep, Cycling",
 //    "xxx, keep, Swimming.txt",
 //    "xxx, keep, Sleep",

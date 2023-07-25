@@ -6,7 +6,7 @@
 
   <groupId>org.ou.gatekeeper</groupId>
   <artifactId>rdfizer</artifactId>
-  <version>1.1.2</version>
+  <version>1.1.3</version>
   <url>https://github.com/GATEKEEPER-OU/matkg-rdfizer</url>
   <description>
     This component aims at to transform EMR (T2D Lab Tests) and PHR (Samsung Health data) to HeLiFit ontology through the use of the RML Mapper.
@@ -71,7 +71,7 @@
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
-      <version>1.15</version>
+      <version>1.16.0</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
     <dependency>
@@ -89,7 +89,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>5.9.2</version>
+      <version>5.9.3</version>
       <scope>test</scope>
     </dependency>
     <!-- Local -->

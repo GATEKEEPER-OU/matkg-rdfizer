@@ -23,6 +23,7 @@ import java.util.Date;
 class SHBuilder extends BaseBuilder {
 
   public static final String BASE_URL = "https://opensource.samsung.com/projects/helifit";
+  public static final String SAMSUNG_SYSTEM = "http://samsung";
   public static final String SAMSUNG_LIVE_SYSTEM = "http://samsung/live-data";
 
   //--------------------------------------------------------------------------//
@@ -279,10 +280,16 @@ class SHBuilder extends BaseBuilder {
           .coding(
             buildCoding(
               LOINC_SYSTEM,
-              "LA11834-1",
-              "Exercise"
+              "73985-4",
+              "Exercise activity"
+            ),
+            buildCoding(
+              SAMSUNG_SYSTEM,
+              getValue(dataElement, "exercise_type"),
+              getValue(dataElement, "exercise_description")
             ),
             getExerciseCode(dataElement)
+
           )
           .build();
       case "sleep":
@@ -313,10 +320,48 @@ class SHBuilder extends BaseBuilder {
   public static Coding getExerciseCode(JSONObject dataElement) {
     String typeId = getValue(dataElement, "exercise_description");
     switch (typeId) {
+      // Exercise activity
+      // Check codes HERE https://loinc.org/73985-4
+      case "Bicycling":
+        return buildCoding(
+          LOINC_SYSTEM,
+          "LA11837-4",
+          typeId
+        );
+      case "Jogging":
+        return buildCoding(
+          LOINC_SYSTEM,
+          "LA11835-8",
+          typeId
+        );
+      case "Running":
+        return buildCoding(
+          LOINC_SYSTEM,
+          "LA11836-6",
+          typeId
+        );
+      case "Swimming":
+        return buildCoding(
+          LOINC_SYSTEM,
+          "LA11838-2",
+          typeId
+        );
       case "Walking":
         return buildCoding(
           LOINC_SYSTEM,
-          "82948-1",
+          "LA11834-1",
+          typeId
+        );
+      case "Weights":
+        return buildCoding(
+          LOINC_SYSTEM,
+          "LA11839-0",
+          typeId
+        );
+      case "Mixed":
+        return buildCoding(
+          LOINC_SYSTEM,
+          "LA11840-8",
           typeId
         );
       default:

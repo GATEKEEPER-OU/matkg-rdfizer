@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * TODO desc
  * @author Riccardo Pala (riccardo.pala@open.ac.uk)
- * @todo description
  */
 public class TestUtils {
 
@@ -81,7 +81,14 @@ public class TestUtils {
     Files.write(file.toPath(), out, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
   }
 
+  //--------------------------------------------------------------------------//
+  // Class definition
+  //--------------------------------------------------------------------------//\
+
   private static ClassLoader classLoader = TestUtils.class.getClassLoader();
   private static final File TMP_DIR = FileUtils.getTempDirectory();
+
+  private TestUtils(){
+  }
 
 }
