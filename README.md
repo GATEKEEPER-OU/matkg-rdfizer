@@ -7,7 +7,7 @@ This component aims at to transform EMR (T2D Lab Tests) and PHR (Samsung Health 
 
 1. git clone https://github.ecodesamsung.com/Health-Innovation/rdfizer.git
 2. open the project IntelliJ IDEA
-3. make sure you are using Java 17.0.2 (amazon corretto-17) with IntelliJ IDEA: File --> Project Structure --> Project --> SDK
+3. make sure you are using Java 17.x.x (amazon corretto-17) with IntelliJ IDEA: File --> Project Structure --> Project --> SDK
 
 ## RDFox configuration for the RDFizer-Data-Test
 1. Download RDFox 6.0 from https://www.oxfordsemantic.tech/downloads

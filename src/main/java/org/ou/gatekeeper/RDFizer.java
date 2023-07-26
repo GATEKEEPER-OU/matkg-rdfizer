@@ -69,8 +69,8 @@ public class RDFizer {
 
     } else {
       String inputName = FilenameUtils.removeExtension(input.getName());
-      String fhirFilename = generateUniqueFilename("output-"+inputName, "json");
 //    String fhirFilename = generateUniqueFilename("output", "fhir.json");
+      String fhirFilename = generateUniqueFilename("output-"+inputName, "json");
       File tempFhirFile = new File(TMP_DIR, fhirFilename);
       adapter.toExtendedFhir(input, tempFhirFile);
       mapping.setLocalSource(tempFhirFile.getAbsolutePath());

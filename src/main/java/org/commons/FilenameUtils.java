@@ -1,5 +1,7 @@
 package org.commons;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -11,7 +13,35 @@ import java.util.stream.Collectors;
  */
 public class FilenameUtils {
 
+  /** Timestamp separator */
+  public static final String TS_SEP = "__";
+
+  /** File extension separator */
   public static final String EXT_SEP = ".";
+
+  /**
+   *
+   * @todo description
+   */
+  public static String nameWithTimestamp(String prefix, String ext) {
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss-n");
+    LocalDateTime now = LocalDateTime.now();
+    String timestamp = dateTimeFormatter.format(now);
+    return prefix + TS_SEP + timestamp + EXT_SEP + ext;
+  }
+
+  /**
+   *
+   * @todo description
+   */
+  public static String trimExtension(String filename) {
+    String[] parts = filename.split(Pattern.quote(EXT_SEP));
+    // TODO test with
+    // - filename = null
+    // - filename = ""
+    // etc.
+    return parts[0];
+  }
 
   /**
    *
@@ -42,7 +72,7 @@ public class FilenameUtils {
   //--------------------------------------------------------------------------//
 
   /**
-   * @todo description
+   * This class is not instantiable
    */
   private FilenameUtils() {
   }

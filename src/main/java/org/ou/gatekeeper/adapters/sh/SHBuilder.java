@@ -527,7 +527,7 @@ class SHBuilder extends BaseBuilder {
     String   deviceId = dataElement.getString("device_id");
     String zoneOffset = getTimeOffset(dataElement); // TODO re-think again in the future
     String  startTime = getValue(dataElement, "start_time");
-    String endTime = hasValue(dataElement, "end_time")
+    String    endTime = hasValue(dataElement, "end_time")
       ? getValue(dataElement, "end_time")
       : null;
 

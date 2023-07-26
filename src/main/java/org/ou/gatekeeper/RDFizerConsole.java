@@ -41,18 +41,13 @@ public class RDFizerConsole {
         return;
       }
 
+      setupInput(cmd);
       setupOutput(cmd);
       setupAdapter(cmd);
       if (!outputFileExt.equals("fhir")) {
         setupMapping();
       }
-
-      File input = getInputArg(cmd);
-      if (input.isDirectory()) {
-        runBatch(input);
-      } else {
-        run(input);
-      }
+      run();
 
     } catch (ParseException e) {
       // TODO print error message
@@ -68,6 +63,7 @@ public class RDFizerConsole {
   private static DataAdapter adapter;
   private static RMLMapping mapping;
 
+  private static String inputFilename;
   private static String outputFilename;
   private static File outputDir;
   private static String outputFileExt;
@@ -77,7 +73,27 @@ public class RDFizerConsole {
   /**
    * This class is not instantiable
    */
-  private RDFizerConsole() {}
+  private RDFizerConsole() {
+  }
+
+  private static void run() {
+    File inputFile = new File(inputFilename);
+    String outputExt = outputFileExt.equals("fhir") ? "fhir.json" : outputFileExt;
+    if (inputFile.isDirectory()) {
+      File inputDir = inputFile;
+      String[] exts = { "json" };
+      Iterator<File> inputDirFiles = FileUtils.iterateFiles(inputDir, exts, true);
+      while (inputDirFiles.hasNext()) {
+        inputFile = inputDirFiles.next();
+        File outputFile = getOutputFile(outputFilename, outputExt, inputFile);
+        RDFizer.transform(inputFile, outputFile, adapter, mapping);
+      }
+
+    } else {
+      File outputFile = getOutputFile(outputFilename, outputExt, inputFile);
+      RDFizer.transform(inputFile, outputFile, adapter, mapping);
+    }
+  }
 
   private static CommandLine setupArguments(String[] args) throws ParseException {
     options.addOption(
@@ -137,15 +153,6 @@ public class RDFizerConsole {
     formatter.printHelp("rdfizer", header, options, footer, true);
   }
 
-  private static File getInputArg(CommandLine cmd) throws MissingArgumentException {
-    final String INPUT = "input";
-    if (!cmd.hasOption(INPUT)) {
-      String message = String.format("--%s is missing.", INPUT);
-      throw new MissingArgumentException(message);
-    }
-    return new File(cmd.getOptionValue(INPUT));
-  }
-
   private static void setupAdapter(CommandLine cmd) throws MissingArgumentException {
     final String INPUT_FORMAT = "input-format";
     if (!cmd.hasOption(INPUT_FORMAT)) {
@@ -166,6 +173,15 @@ public class RDFizerConsole {
     mapping = HelifitMapping.create(format);
   }
 
+  private static void setupInput(CommandLine cmd) throws MissingArgumentException {
+    final String INPUT = "input";
+    if (!cmd.hasOption(INPUT)) {
+      String message = String.format("--%s is missing.", INPUT);
+      throw new MissingArgumentException(message);
+    }
+    inputFilename = cmd.getOptionValue(INPUT);
+  }
+
   private static void setupOutput(CommandLine cmd) {
     //
     final String OUTPUT_DIR = "output-dir";
@@ -182,27 +198,21 @@ public class RDFizerConsole {
     outputFileExt = cmd.hasOption(OUTPUT_FORMAT) ? cmd.getOptionValue(OUTPUT_FORMAT) : "nt";
   }
 
-  private static void run(File inputFile) {
-    System.out.println("> " + outputFilename); // DEBUG
+  /**
+   * Try to open a file named {@code outputFilename}, if {@code null} uses {@code defaultFile.getName()}.
+   * @param outputFilename output filename
+   * @param outputExt output file extension
+   * @param defaultFile file pointer containing the default filename
+   * @returns output file pointer.
+   * */
+  private static File getOutputFile(String outputFilename, String outputExt, File defaultFile) {
     if (outputFilename == null) {
-      String outputExt = outputFileExt.equals("fhir") ? "fhir.json" : outputFileExt;
-      String inputFilename = inputFile.getName();
-      String trimmedDatasetName = FilenameUtils.trim2LvlExtension(inputFilename);
-      outputFilename = FilenameUtils
-        .changeExtension(trimmedDatasetName, outputExt);
+      String inputFilename = defaultFile.getName();
+      outputFilename = FilenameUtils.trimExtension(inputFilename);
     }
-    File outputFile = new File(outputDir, outputFilename);
-    RDFizer.transform(inputFile, outputFile, adapter, mapping);
-  }
-
-  private static void runBatch(File inputDir) {
-    String[] exts = {"json"};
-    Iterator<File> inputDirFiles = FileUtils.iterateFiles(inputDir, exts, true);
-    while (inputDirFiles.hasNext()) {
-      outputFilename = null; // FORCE output filename to input filename
-      File inputFile = inputDirFiles.next();
-      run(inputFile);
-    }
+    String outputFilenameWithExt = FilenameUtils.nameWithTimestamp(outputFilename, outputExt);
+    File outputFile = new File(outputDir, outputFilenameWithExt);
+    return outputFile;
   }
 
 }
