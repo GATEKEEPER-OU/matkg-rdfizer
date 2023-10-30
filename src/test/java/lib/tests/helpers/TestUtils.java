@@ -88,6 +88,9 @@ public class TestUtils {
   private static ClassLoader classLoader = TestUtils.class.getClassLoader();
   private static final File TMP_DIR = FileUtils.getTempDirectory();
 
+  /**
+   * This class is not instantiable
+   */
   private TestUtils(){
   }
 

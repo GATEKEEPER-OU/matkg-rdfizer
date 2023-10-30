@@ -108,9 +108,7 @@ public abstract class BaseBuilder {
 
   public static Coding buildCoding(String system, String code, String display) {
     return Coding.builder()
-      .system(
-        Uri.uri(system)
-      )
+      .system(Uri.uri(system))
       .code(Code.code(code))
       .display(display)
       .build();

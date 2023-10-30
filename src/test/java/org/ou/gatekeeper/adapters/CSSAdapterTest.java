@@ -21,8 +21,8 @@ class CSSAdapterTest {
   @ParameterizedTest
   @CsvSource({
     // Patient
-//    "xxx, keep, PatientWithAge",
-    "xxx, keep, BodyHeight",
+    "xxx, keep, PatientWithAge",
+//    "xxx, keep, BodyHeight",
 //    "xxx, keep, BodyWeight",
 
     // Observations
