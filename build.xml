@@ -11,42 +11,100 @@
   <!-- RDFox targets -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-  <target name="rdfox-check-downloaded">
-    <available file="${java.io.tmpdir}/JRDFox.jar" property="rdfox.downloaded"/>
+    <target name="rdfox-v6_2-linux-download">
+      <echo level="info">Download JRDFox.jar v6.2 linux</echo>
+      <mkdir dir="${java.io.tmpdir}"/>
+      <get src="https://rdfox-distribution.s3.eu-west-2.amazonaws.com/release/v6.2/RDFox-linux-x86_64-6.2.zip"
+           dest="${java.io.tmpdir}"
+           verbose="true"
+           usetimestamp="true"/>
+      <unzip src="${java.io.tmpdir}/RDFox-linux-x86_64-6.2.zip"
+             dest="${java.io.tmpdir}"
+             overwrite="true"/>
+    </target>
+
+    <target name="rdfox-v6_2-linux-install">
+      <echo level="info">Install JRDFox.jar v6.2 linux</echo>
+      <exec dir="." executable="${mvn_exec}">
+        <arg value="install:install-file"/>
+        <arg value="-Dfile=${java.io.tmpdir}/RDFox-linux-x86_64-6.2/lib/JRDFox.jar"/>
+        <arg value="-DgroupId=tech.oxfordsemantic.jrdfox"/>
+        <arg value="-DartifactId=JRDFox"/>
+        <arg value="-Dversion=6.2"/>
+        <arg value="-Dpackaging=jar"/>
+      </exec>
+    </target>
+
+  <target name="rdfox-v6_2-macintel-download">
+    <echo level="info">Download JRDFox.jar v6.2 MAC Intel</echo>
+    <mkdir dir="${java.io.tmpdir}"/>
+    <get src="https://rdfox-distribution.s3.eu-west-2.amazonaws.com/release/v6.2/RDFox-macOS-x86_64-6.2.zip"
+         dest="${java.io.tmpdir}"
+         verbose="true"
+         usetimestamp="true"/>
+    <unzip src="${java.io.tmpdir}/RDFox-macOS-x86_64-6.2.zip"
+           dest="${java.io.tmpdir}"
+           overwrite="true"/>
   </target>
+
+  <target name="rdfox-v6_2-macintel-install">
+    <echo level="info">Install JRDFox.jar v6.2 MAC Intel</echo>
+    <exec dir="." executable="${mvn_exec}">
+      <arg value="install:install-file"/>
+      <arg value="-Dfile=${java.io.tmpdir}/RDFox-macOS-x86_64-6.2/lib/JRDFox.jar"/>
+      <arg value="-DgroupId=tech.oxfordsemantic.jrdfox"/>
+      <arg value="-DartifactId=JRDFox"/>
+      <arg value="-Dversion=6.2"/>
+      <arg value="-Dpackaging=jar"/>
+    </exec>
+  </target>
+
+  <target name="rdfox-v6_2-win-download">
+    <echo level="info">Download JRDFox.jar v6.2 Windows</echo>
+    <mkdir dir="${java.io.tmpdir}"/>
+    <get src="https://rdfox-distribution.s3.eu-west-2.amazonaws.com/release/v6.2/RDFox-win64-x86_64-6.2.zip"
+         dest="${java.io.tmpdir}"
+         verbose="true"
+         usetimestamp="true"/>
+    <unzip src="${java.io.tmpdir}/RDFox-win64-x86_64-6.2.zip"
+           dest="${java.io.tmpdir}"
+           overwrite="true"/>
+  </target>
+
+  <target name="rdfox-v6_2-win-install">
+    <echo level="info">Install JRDFox.jar v6.2 Windows</echo>
+    <exec dir="." executable="${mvn_exec}">
+      <arg value="install:install-file"/>
+      <arg value="-Dfile=${java.io.tmpdir}/RDFox-win64-x86_64-6.2/lib/JRDFox.jar"/>
+      <arg value="-DgroupId=tech.oxfordsemantic.jrdfox"/>
+      <arg value="-DartifactId=JRDFox"/>
+      <arg value="-Dversion=6.2"/>
+      <arg value="-Dpackaging=jar"/>
+    </exec>
+  </target>
+
 
 <!--  <target name="rdfox-download" depends="rdfox-check-downloaded" unless="rdfox.downloaded">-->
 <!--    <echo level="info">Download JRDFox.jar</echo>-->
 <!--    <mkdir dir="${java.io.tmpdir}"/>-->
-<!--    <get src="https://rdfox-distribution.s3.eu-west-2.amazonaws.com/release/v6.2/RDFox-linux-x86_64-6.2.zip"-->
+<!--    <get src="${gatekeeper-repository}/rdfox/${rdfox-ver}/JRDFox.jar"-->
 <!--         dest="${java.io.tmpdir}"-->
 <!--         verbose="true"-->
 <!--         usetimestamp="true"/>-->
-<!--    <unzip src="${java.io.tmpdir}/RDFox-linux-x86_64-6.2.zip"-->
-<!--           dest="${java.io.tmpdir}"-->
-<!--           overwrite="true"/>-->
 <!--  </target>-->
-  <target name="rdfox-download" depends="rdfox-check-downloaded" unless="rdfox.downloaded">
-    <echo level="info">Download JRDFox.jar</echo>
-    <mkdir dir="${java.io.tmpdir}"/>
-    <get src="${gatekeeper-repository}/rdfox/${rdfox-ver}/JRDFox.jar"
-         dest="${java.io.tmpdir}"
-         verbose="true"
-         usetimestamp="true"/>
-  </target>
 
-  <target name="rdfox-install" depends="rdfox-download">
-    <echo level="info">Install JRDFox.jar</echo>
-    <exec dir="." executable="${mvn_exec}">
-      <arg value="install:install-file"/>
-      <arg value="-Dfile=${java.io.tmpdir}/JRDFox.jar"/>
+<!--  <target name="rdfox-install" depends="rdfox-download">-->
+<!--    <echo level="info">Install JRDFox.jar</echo>-->
+<!--    <exec dir="." executable="${mvn_exec}">-->
+<!--      <arg value="install:install-file"/>-->
+<!--&lt;!&ndash;      <arg value="-Dfile=${java.io.tmpdir}/JRDFox.jar"/>&ndash;&gt;-->
 <!--      <arg value="-Dfile=${java.io.tmpdir}/RDFox-linux-x86_64-6.2/lib/JRDFox.jar"/>-->
-      <arg value="-DgroupId=tech.oxfordsemantic.jrdfox"/>
-      <arg value="-DartifactId=JRDFox"/>
-      <arg value="-Dversion=${rdfox-ver}"/>
-      <arg value="-Dpackaging=jar"/>
-    </exec>
-  </target>
+<!--      <arg value="-DgroupId=tech.oxfordsemantic.jrdfox"/>-->
+<!--      <arg value="-DartifactId=JRDFox"/>-->
+<!--      <arg value="-Dversion=${rdfox-ver}"/>-->
+<!--      <arg value="-Dpackaging=jar"/>-->
+<!--    </exec>-->
+<!--  </target>-->
 
   <!-- Project targets -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
