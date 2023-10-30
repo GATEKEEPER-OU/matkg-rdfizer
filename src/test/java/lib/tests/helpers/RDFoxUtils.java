@@ -16,7 +16,12 @@ import java.util.*;
  * */
 public class RDFoxUtils {
 
-  static final String LICENSE_FILE = "lib/RDFox.lic";
+  static final String LICENSE_FILE = "RDFox.lic";
+
+//  static {
+////    System.loadLibrary("RDFox");
+////    System.setProperty("java.library.path", "lib/v6.2-mac");
+//  }
 
   /**
    * @todo
@@ -27,6 +32,8 @@ public class RDFoxUtils {
     Map<String, String> serverParams = new HashMap<>();
     serverParams.put("license-file", LICENSE_FILE);
     serverParams.put("num-threads", "2");
+//    System.setProperty("java.library.path", "lib/v6.2-mac");
+//    System.loadLibrary("");
     ConnectionFactory.startLocalServer(serverParams);
     if (ConnectionFactory.getNumberOfLocalServerRoles() == 0) {
       ConnectionFactory.createFirstLocalServerRole(firstRoleName, password);
