@@ -1,6 +1,102 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="rdfizer" basedir=".">
 
+  <property name="rdfox-ver" value="6.2"/>
+  <property name="gatekeeper-repository" value="http://gatekeeper.wilsley.xyz/maven"/>
+
+  <condition property="mvn_exec" value="mvn.cmd" else="mvn">
+    <os family="windows" />
+  </condition>
+
+  <!-- RDFox targets -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <target name="rdfox-check-downloaded">
+    <available file="${java.io.tmpdir}/JRDFox.jar" property="rdfox.downloaded"/>
+  </target>
+
+<!--  <target name="rdfox-download" depends="rdfox-check-downloaded" unless="rdfox.downloaded">-->
+<!--    <echo level="info">Download JRDFox.jar</echo>-->
+<!--    <mkdir dir="${java.io.tmpdir}"/>-->
+<!--    <get src="https://rdfox-distribution.s3.eu-west-2.amazonaws.com/release/v6.2/RDFox-linux-x86_64-6.2.zip"-->
+<!--         dest="${java.io.tmpdir}"-->
+<!--         verbose="true"-->
+<!--         usetimestamp="true"/>-->
+<!--    <unzip src="${java.io.tmpdir}/RDFox-linux-x86_64-6.2.zip"-->
+<!--           dest="${java.io.tmpdir}"-->
+<!--           overwrite="true"/>-->
+<!--  </target>-->
+  <target name="rdfox-download" depends="rdfox-check-downloaded" unless="rdfox.downloaded">
+    <echo level="info">Download JRDFox.jar</echo>
+    <mkdir dir="${java.io.tmpdir}"/>
+    <get src="${gatekeeper-repository}/rdfox/${rdfox-ver}/JRDFox.jar"
+         dest="${java.io.tmpdir}"
+         verbose="true"
+         usetimestamp="true"/>
+  </target>
+
+  <target name="rdfox-install" depends="rdfox-download">
+    <echo level="info">Install JRDFox.jar</echo>
+    <exec dir="." executable="${mvn_exec}">
+      <arg value="install:install-file"/>
+      <arg value="-Dfile=${java.io.tmpdir}/JRDFox.jar"/>
+<!--      <arg value="-Dfile=${java.io.tmpdir}/RDFox-linux-x86_64-6.2/lib/JRDFox.jar"/>-->
+      <arg value="-DgroupId=tech.oxfordsemantic.jrdfox"/>
+      <arg value="-DartifactId=JRDFox"/>
+      <arg value="-Dversion=${rdfox-ver}"/>
+      <arg value="-Dpackaging=jar"/>
+    </exec>
+  </target>
+
+  <!-- Project targets -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<!--  <target name="project-depinstall" depends="fhir-install,jfl-install"/>-->
+
+  <target name="project-cleancache" >
+    <delete file="${java.io.tmpdir}/JRDFox.jar"/>
+  </target>
+
+  <target name="project-clean">
+    <delete dir="target" />
+    <delete dir="out" />
+  </target>
+
+  <target name="project-purge" depends="project-clean">
+    <exec dir="." executable="${mvn_exec}">
+      <arg value="dependency:purge-local-repository"/>
+      <arg value="-DactTransitively=false"/>
+      <arg value="-DreResolve=false"/>
+    </exec>
+  </target>
+
+<!--  <target name="project-clean">-->
+<!--    <delete dir="target" />-->
+<!--    <delete dir="out" />-->
+<!--  </target>-->
+
+<!--  <target name="project-purge" depends="project-clean, helifit-clean">-->
+<!--    <exec dir="." executable="mvn">-->
+<!--      <arg value="dependency:purge-local-repository"/>-->
+<!--      <arg value="-DactTransitively=false"/>-->
+<!--      <arg value="-DreResolve=false"/>-->
+<!--    </exec>-->
+<!--  </target>-->
+
+<!--  <target name="project-deploy">-->
+<!--    <delete dir="${deploy_dir}" failonerror="false"/>-->
+<!--    <mkdir dir="${deploy_dir}" />-->
+<!--    <copy todir="${deploy_dir}">-->
+<!--      <fileset dir="${artifacts_dir}/rdfizer_jar" includes="**" />-->
+<!--    </copy>-->
+<!--  </target>-->
+
+
+
+
+
+
+
   <property name="src" value="src/main/java" />
   <property name="src_resources" value="src/main/resources" />
 
@@ -27,63 +123,10 @@
     </java>
   </target>
 
-    <target name="helifit-clean">
-      <delete file="${ontology_template}" />
-    </target>
-
-  <!-- RDFox targets -->
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-  <target name="rdfox-check-downloaded">
-    <available file="${java.io.tmpdir}/JRDFox.jar" property="rdfox.downloaded"/>
+  <target name="helifit-clean">
+    <delete file="${ontology_template}" />
   </target>
 
-  <target name="rdfox-download" depends="rdfox-check-downloaded" unless="rdfox.downloaded">
-    <echo level="info">Download JRDFox.jar</echo>
-    <mkdir dir="${java.io.tmpdir}"/>
-    <get src="https://rdfox-distribution.s3.eu-west-2.amazonaws.com/release/v6.2/RDFox-linux-x86_64-6.2.zip"
-         dest="${java.io.tmpdir}"
-         verbose="true"
-         usetimestamp="true"/>
-    <unzip src="${java.io.tmpdir}/RDFox-linux-x86_64-6.2.zip"
-           dest="${java.io.tmpdir}"
-           overwrite="true"/>
-  </target>
 
-  <target name="rdfox-install" depends="rdfox-download">
-    <echo level="info">Install JRDFox.jar</echo>
-    <exec dir="." executable="mvn">
-      <arg value="install:install-file"/>
-      <arg value="-Dfile=${java.io.tmpdir}/RDFox-linux-x86_64-6.2/lib/JRDFox.jar"/>
-      <arg value="-DgroupId=tech.oxfordsemantic.jrdfox"/>
-      <arg value="-DartifactId=JRDFox"/>
-      <arg value="-Dversion=6.2"/>
-      <arg value="-Dpackaging=jar"/>
-    </exec>
-  </target>
-
-  <!-- Project targets -->
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-  <target name="project-clean">
-    <delete dir="target" />
-    <delete dir="out" />
-  </target>
-
-  <target name="project-purge" depends="project-clean, helifit-clean">
-    <exec dir="." executable="mvn">
-      <arg value="dependency:purge-local-repository"/>
-      <arg value="-DactTransitively=false"/>
-      <arg value="-DreResolve=false"/>
-    </exec>
-  </target>
-
-  <target name="project-deploy">
-    <delete dir="${deploy_dir}" failonerror="false"/>
-    <mkdir dir="${deploy_dir}" />
-    <copy todir="${deploy_dir}">
-      <fileset dir="${artifacts_dir}/rdfizer_jar" includes="**" />
-    </copy>
-  </target>
 
 </project>
